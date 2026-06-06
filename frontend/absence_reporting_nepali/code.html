@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+
+<html lang="ne"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>StaffTrack - अनुपस्थिति रिपोर्ट</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&amp;family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&amp;family=JetBrains+Mono:wght@500;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@100..900&amp;family=JetBrains+Mono:wght@100..900&amp;family=Syne:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-tint": "#9f402d",
+                        "primary": "#9f402d",
+                        "on-tertiary-fixed-variant": "#6e3900",
+                        "surface-container": "#efefd7",
+                        "secondary-container": "#d6e7a1",
+                        "on-primary-fixed": "#3e0500",
+                        "surface-container-high": "#eaead1",
+                        "on-error": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "secondary-fixed-dim": "#bdce89",
+                        "on-tertiary-fixed": "#2f1500",
+                        "background": "#fbfbe2",
+                        "outline-variant": "#ddc0ba",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-fixed-variant": "#3e4c16",
+                        "inverse-on-surface": "#f2f2d9",
+                        "error": "#D9534F",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed": "#ffdad3",
+                        "tertiary-fixed": "#ffdcc3",
+                        "on-primary-container": "#5a0d02",
+                        "surface-variant": "#e4e4cc",
+                        "surface": "#FFFDF5",
+                        "on-background": "#1b1d0e",
+                        "tertiary": "#904d00",
+                        "tertiary-container": "#dd7900",
+                        "surface-container-highest": "#e4e4cc",
+                        "surface-bright": "#fbfbe2",
+                        "surface-dim": "#dbdcc3",
+                        "on-primary": "#ffffff",
+                        "inverse-primary": "#ffb4a5",
+                        "on-surface": "#1b1d0e",
+                        "on-primary-fixed-variant": "#802918",
+                        "primary-container": "#e2725b",
+                        "on-surface-variant": "#7A6A53",
+                        "secondary": "#56642b",
+                        "on-secondary-container": "#5a682f",
+                        "outline": "#D2B48C",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-low": "#f5f5dc",
+                        "on-tertiary-container": "#462200",
+                        "on-secondary-fixed": "#161f00",
+                        "inverse-surface": "#303221",
+                        "tertiary-fixed-dim": "#ffb77d",
+                        "secondary-fixed": "#d9eaa3",
+                        "primary-fixed-dim": "#ffb4a5",
+                        "on-error-container": "#93000a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-edge": "32px",
+                        "touch-target": "48px",
+                        "base": "8px",
+                        "admin-gutter": "16px",
+                        "kiosk-gap": "24px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["JetBrains Mono"],
+                        "headline-lg": ["Syne"],
+                        "technical-sm": ["JetBrains Mono"],
+                        "headline-lg-mobile": ["Syne"],
+                        "display-lg": ["Syne"],
+                        "body-md": ["DM Sans"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "technical-sm": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        body {
+            background-color: #fbfbe2; /* background from config */
+            color: #1b1d0e; /* on-background */
+        }
+        .form-input-focus:focus {
+            outline: none;
+            border-color: #9f402d;
+            box-shadow: 0 0 0 2px rgba(159, 64, 45, 0.1);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body-md text-body-md overflow-x-hidden">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-surface border-b border-outline-variant docked full-width top-0 z-40 fixed w-full flex justify-between items-center px-margin-edge h-touch-target">
+<div class="flex items-center gap-base">
+<span class="material-symbols-outlined text-primary dark:text-primary">fingerprint</span>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-primary dark:text-primary font-bold">StaffTrack</h1>
+</div>
+<div class="flex items-center gap-4">
+<div class="font-label-caps text-label-caps text-on-surface-variant bg-surface-container-low px-3 py-1 border border-outline rounded" id="digitalClock">12:45:08 PM</div>
+</div>
+</header>
+<div class="flex min-h-screen pt-touch-target pb-16 md:pb-0">
+<!-- NavigationDrawer (Desktop) -->
+<aside class="hidden md:flex flex-col gap-base py-margin-edge bg-surface-container dark:bg-surface-container border-r border-outline-variant fixed left-0 top-0 h-full w-[280px] z-30">
+<div class="px-admin-gutter mb-6">
+<h2 class="font-label-caps text-label-caps text-on-surface-variant opacity-60">ADMIN TERMINAL</h2>
+</div>
+<nav class="flex flex-col">
+<a class="text-on-surface-variant dark:text-on-surface-variant flex items-center gap-base px-admin-gutter py-base hover:bg-surface-container-high transition-all duration-150" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-caps text-label-caps">Dashboard</span>
+</a>
+<a class="text-primary dark:text-primary font-bold border-r-4 border-primary flex items-center gap-base px-admin-gutter py-base bg-surface-container-high" href="#">
+<span class="material-symbols-outlined">groups</span>
+<span class="font-label-caps text-label-caps">Staff Management</span>
+</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant flex items-center gap-base px-admin-gutter py-base hover:bg-surface-container-high transition-all duration-150" href="#">
+<span class="material-symbols-outlined">description</span>
+<span class="font-label-caps text-label-caps">Attendance Reports</span>
+</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant flex items-center gap-base px-admin-gutter py-base hover:bg-surface-container-high transition-all duration-150" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-caps text-label-caps">System Settings</span>
+</a>
+</nav>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 md:ml-[280px] px-4 md:px-margin-edge py-8">
+<div class="max-w-4xl mx-auto">
+<!-- Page Header -->
+<div class="mb-kiosk-gap">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-2">अनुपस्थिति रिपोर्ट</h2>
+<p class="text-on-surface-variant opacity-80">Absence Reporting for Staff Management</p>
+</div>
+<form class="space-y-kiosk-gap">
+<!-- Section: Staff Selection Card -->
+<div class="bg-surface-container-low border border-outline p-6 rounded-lg relative overflow-hidden">
+<div class="absolute bottom-0 left-0 w-full h-1 bg-primary"></div>
+<h3 class="font-label-caps text-label-caps text-on-surface-variant mb-4">कर्मचारी विवरण (Staff Details)</h3>
+<div class="flex items-center gap-6">
+<div class="w-20 h-20 bg-surface-variant rounded-full border border-outline flex items-center justify-center overflow-hidden">
+<img alt="Staff Member" class="w-full h-full object-cover" data-alt="A professional headshot of a middle-aged South Asian male staff member in a clean, professional workplace setting. He has a warm, approachable expression. The lighting is soft and natural, emphasizing a bright and welcoming atmosphere. The background is slightly blurred to keep focus on the individual, maintaining a clean and modern industrial aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1RD-PZW6734FVNwvgBj9DHeRlEi6uifQa_xL3Lp624egke-beMhhXSchYSLkx7rk6t_dxjs5ihl6b0ZHUJuufYYyvCMvKVERM-iS97e1kmNyBAi6qWzPnBKZVRZhZy7hu5io83MjGwWXKJ-Dv0V0tCy5ipWFX3O0Rma2qKZ96ZF6wN5jrMr5KDXpRFh9ZMCKvCQDcrYMF1BfJqLZqtQHnQHGMLUHzNnU9B32Dl9lu99mU7YHpteFALi0VQBWfPUMzru-c7zMF-Ewx"/>
+</div>
+<div class="flex-1">
+<p class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface leading-none">रवि थापा (Ravi Thapa)</p>
+<p class="font-technical-sm text-technical-sm text-on-surface-variant mt-1">ID: ST-2024-0892</p>
+<div class="mt-2 inline-flex items-center px-2 py-0.5 rounded border border-secondary/20 bg-secondary/10">
+<span class="w-2 h-2 rounded-full bg-secondary mr-2"></span>
+<span class="font-technical-sm text-technical-sm text-secondary">Present Today</span>
+</div>
+</div>
+<button class="border border-outline px-4 h-10 font-label-caps text-label-caps hover:bg-surface-variant transition-colors" type="button">
+                                परिवर्तन गर्नुहोस् (Change)
+                            </button>
+</div>
+</div>
+<!-- Main Form Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-kiosk-gap">
+<!-- Leave Type Selection -->
+<div class="space-y-3">
+<label class="font-label-caps text-label-caps text-on-surface-variant">बिदाको प्रकार (Leave Type)</label>
+<div class="grid grid-cols-2 gap-3">
+<label class="cursor-pointer group">
+<input checked="" class="hidden peer" name="leave_type" type="radio"/>
+<div class="border border-outline p-4 text-center peer-checked:bg-primary-container peer-checked:text-on-primary-container peer-checked:border-primary transition-all group-hover:bg-surface-variant flex flex-col items-center gap-2">
+<span class="material-symbols-outlined">medical_services</span>
+<span class="font-label-caps text-label-caps">बिरामी बिदा (Sick)</span>
+</div>
+</label>
+<label class="cursor-pointer group">
+<input class="hidden peer" name="leave_type" type="radio"/>
+<div class="border border-outline p-4 text-center peer-checked:bg-primary-container peer-checked:text-on-primary-container peer-checked:border-primary transition-all group-hover:bg-surface-variant flex flex-col items-center gap-2">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-caps text-label-caps">व्यक्तिगत (Personal)</span>
+</div>
+</label>
+<label class="cursor-pointer group">
+<input class="hidden peer" name="leave_type" type="radio"/>
+<div class="border border-outline p-4 text-center peer-checked:bg-primary-container peer-checked:text-on-primary-container peer-checked:border-primary transition-all group-hover:bg-surface-variant flex flex-col items-center gap-2">
+<span class="material-symbols-outlined">beach_access</span>
+<span class="font-label-caps text-label-caps">घर बिदा (Vacation)</span>
+</div>
+</label>
+<label class="cursor-pointer group">
+<input class="hidden peer" name="leave_type" type="radio"/>
+<div class="border border-outline p-4 text-center peer-checked:bg-primary-container peer-checked:text-on-primary-container peer-checked:border-primary transition-all group-hover:bg-surface-variant flex flex-col items-center gap-2">
+<span class="material-symbols-outlined">warning</span>
+<span class="font-label-caps text-label-caps">आकस्मिक (Emergency)</span>
+</div>
+</label>
+</div>
+</div>
+<!-- Date Range -->
+<div class="space-y-kiosk-gap">
+<div class="space-y-2">
+<label class="font-label-caps text-label-caps text-on-surface-variant">सुरु हुने मिति (Start Date)</label>
+<div class="relative">
+<input class="w-full h-touch-target bg-surface border border-outline px-4 form-input-focus font-body-md" type="date"/>
+<span class="material-symbols-outlined absolute right-4 top-3 text-on-surface-variant pointer-events-none">calendar_today</span>
+</div>
+</div>
+<div class="space-y-2">
+<label class="font-label-caps text-label-caps text-on-surface-variant">अन्तिम मिति (End Date)</label>
+<div class="relative">
+<input class="w-full h-touch-target bg-surface border border-outline px-4 form-input-focus font-body-md" type="date"/>
+<span class="material-symbols-outlined absolute right-4 top-3 text-on-surface-variant pointer-events-none">event</span>
+</div>
+</div>
+</div>
+<!-- Notes/Reason -->
+<div class="md:col-span-2 space-y-2">
+<label class="font-label-caps text-label-caps text-on-surface-variant">कैफियत (Reason/Notes)</label>
+<textarea class="w-full bg-surface border border-outline p-4 form-input-focus font-body-md resize-none" placeholder="अनुपस्थित हुनुको विस्तृत कारण यहाँ लेख्नुहोस्..." rows="4"></textarea>
+</div>
+<!-- File Upload -->
+<div class="md:col-span-2 space-y-2">
+<label class="font-label-caps text-label-caps text-on-surface-variant">प्रमाणपत्र अपलोड गर्नुहोस् (Supporting Documents)</label>
+<div class="border-2 border-dashed border-outline-variant bg-surface-container-lowest p-8 flex flex-col items-center justify-center gap-3 cursor-pointer hover:bg-surface-variant transition-colors rounded-lg">
+<span class="material-symbols-outlined text-4xl text-primary opacity-60">cloud_upload</span>
+<div class="text-center">
+<p class="font-body-md font-bold">फाइल यहाँ तान्नुहोस् वा ब्राउज गर्नुहोस्</p>
+<p class="text-technical-sm text-on-surface-variant opacity-60">PDF, JPG up to 10MB (Medical Certificate, etc.)</p>
+</div>
+<input class="hidden" id="fileUpload" type="file"/>
+</div>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="flex flex-col sm:flex-row gap-4 pt-8 border-t border-outline-variant">
+<button class="flex-1 h-touch-target bg-primary text-white font-label-caps text-label-caps flex items-center justify-center gap-2 hover:bg-primary/90 transition-all active:scale-95" type="submit">
+<span class="material-symbols-outlined">send</span>
+                            पेश गर्नुहोस् (Submit Report)
+                        </button>
+<button class="flex-1 h-touch-target border-2 border-outline text-on-surface font-label-caps text-label-caps flex items-center justify-center gap-2 hover:bg-surface-variant transition-all active:scale-95" type="button">
+<span class="material-symbols-outlined">close</span>
+                            रद्द गर्नुहोस् (Cancel)
+                        </button>
+</div>
+</form>
+</div>
+</main>
+</div>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center h-[64px] px-margin-edge bg-surface-container-lowest dark:bg-surface-container-lowest border-t border-outline-variant z-50">
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full p-2 scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">admin_panel_settings</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant p-2 scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">qr_code_scanner</span>
+</a>
+</nav>
+<script>
+        // Simple Clock micro-interaction
+        function updateClock() {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('en-US', { hour12: true, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            document.getElementById('digitalClock').textContent = timeStr;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // Basic File Upload interaction
+        const dropZone = document.querySelector('.border-dashed');
+        dropZone.addEventListener('click', () => document.getElementById('fileUpload').click());
+        
+        // Prevent default browser behavior for form submission for demo
+        document.querySelector('form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('रिपोर्ट सफलतापूर्वक पेश गरियो! (Report submitted successfully)');
+        });
+    </script>
+</body></html>

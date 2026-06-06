@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+
+<html lang="ne"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&amp;family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#E67E22", // Vibrant Orange accent
+                        "on-primary": "#FFFFFF",
+                        "secondary": "#2ECC71", // Vibrant Green accent
+                        "surface": "#FCF8F3", // Cream/Beige background
+                        "surface-container": "#F5EFE7", // Slightly darker beige
+                        "surface-container-low": "#FAF5EF",
+                        "surface-container-high": "#EFE1D1",
+                        "surface-container-highest": "#EADBC8",
+                        "on-surface": "#433D3C",
+                        "on-surface-variant": "#7D7473",
+                        "outline": "#D7C0AE",
+                        "outline-variant": "#E4D0BE",
+                        "error": "#E74C3C",
+                        "on-error": "#FFFFFF",
+                        "background": "#FCF8F3"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.5rem",
+                        "xl": "1rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-edge": "32px",
+                        "base": "8px",
+                        "admin-gutter": "16px",
+                        "touch-target": "48px",
+                        "kiosk-gap": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Syne"],
+                        "display-lg": ["Syne"],
+                        "label-caps": ["JetBrains Mono"],
+                        "body-md": ["DM Sans"],
+                        "technical-sm": ["JetBrains Mono"],
+                        "headline-lg-mobile": ["Syne"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "label-caps": ["12px", {"lineHeight": "1.0", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "technical-sm": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            min-height: max(884px, 100dvh);
+            background-color: #FCF8F3;
+        }
+    </style>
+</head>
+<body class="antialiased overflow-x-hidden text-on-surface">
+<!-- Sidebar Navigation Shell -->
+<aside class="fixed left-0 top-0 h-full w-[280px] bg-surface-container border-r border-outline-variant z-40 hidden md:flex flex-col py-margin-edge gap-base">
+<div class="px-admin-gutter mb-8">
+<h1 class="font-headline-lg text-headline-lg text-primary uppercase">प्रशासनिक टर्मिनल</h1>
+<p class="font-label-caps text-label-caps text-on-surface-variant mt-2 tracking-widest">स्टाफट्र्याक संस्करण २.४</p>
+</div>
+<nav class="flex flex-col gap-base">
+<a class="text-primary font-bold border-r-4 border-primary transition-all duration-150 ease-in-out hover:bg-surface-container-high flex items-center gap-base px-admin-gutter py-base" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-caps text-label-caps">ड्यासबोर्ड</span>
+</a>
+<a class="text-on-surface-variant flex items-center gap-base px-admin-gutter py-base transition-all duration-150 ease-in-out hover:bg-surface-container-high" href="#">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+<span class="font-label-caps text-label-caps">कर्मचारी व्यवस्थापन</span>
+</a>
+<a class="text-on-surface-variant flex items-center gap-base px-admin-gutter py-base transition-all duration-150 ease-in-out hover:bg-surface-container-high" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span class="font-label-caps text-label-caps">हाजिरी रिपोर्ट</span>
+</a>
+<a class="text-on-surface-variant flex items-center gap-base px-admin-gutter py-base transition-all duration-150 ease-in-out hover:bg-surface-container-high" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-caps text-label-caps">प्रणाली सेटिङहरू</span>
+</a>
+</nav>
+<div class="mt-auto px-admin-gutter">
+<div class="p-4 bg-surface-container-high rounded-lg border border-outline-variant">
+<p class="font-technical-sm text-technical-sm text-on-surface mb-2 uppercase">प्रणाली स्थिति</p>
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-secondary animate-pulse"></div>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">बायोमेट्रिक सक्रिय</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- Top App Bar -->
+<header class="fixed top-0 left-0 md:left-[280px] right-0 h-touch-target bg-surface border-b border-outline-variant flex justify-between items-center px-margin-edge z-30 w-full transition-colors duration-200">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary" data-icon="fingerprint">fingerprint</span>
+<span class="font-headline-lg-mobile text-headline-lg-mobile text-primary font-bold">स्टाफट्र्याक</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative cursor-pointer hover:bg-surface-container-high p-2 rounded-full transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="notifications">notifications</span>
+<div class="absolute top-2 right-2 w-2.5 h-2.5 bg-error rounded-full border-2 border-surface"></div>
+</div>
+<div class="flex items-center gap-3 border-l border-outline-variant pl-6">
+<div class="text-right hidden sm:block">
+<p class="font-label-caps text-label-caps text-primary">प्रशासक प्रयोगकर्ता</p>
+<p class="font-technical-sm text-technical-sm text-on-surface-variant uppercase" style="font-size: 10px;">सुपरिवेक्षक</p>
+</div>
+<img class="w-8 h-8 rounded-full border border-outline" data-alt="Admin avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDScx5AR7vm1x_OnEwvFm6JQVtZoBM9lWc91ialdY2Fb1ziGJ3ziLQaV80Q2XecVSIuZ-zhJC060d4nykmqocpX5eHkSrLc5bs8RsdN1nzYMFhDMn8VdMhb6A4x_bx1ksLmFz-qrz9LmxXuLzcB2EA4DFb-qRcGe2ogd6xKJnKGPFVnF0TFHwc7fL1RrgFx2FDBR0I63t8pl_djMSKq5yhuwJ7fam6b0Q2lzm-h5VgPRAitGNnVNz840ENXTM18CPTMRt1gkdb7zTdf"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="pt-[80px] md:pl-[312px] md:pr-margin-edge pb-margin-edge min-h-screen">
+<!-- Summary Cards Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-admin-gutter mb-margin-edge">
+<!-- Total Staff -->
+<div class="bg-surface-container border border-outline-variant p-admin-gutter group hover:border-primary transition-all rounded-lg">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="badge">badge</span>
+<span class="font-technical-sm text-technical-sm text-primary">यो हप्ता +२</span>
+</div>
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-widest mb-1">कुल कर्मचारी</p>
+<p class="font-display-lg text-display-lg text-on-surface">१२</p>
+</div>
+<!-- Present Today -->
+<div class="bg-surface-container border border-outline-variant p-admin-gutter group hover:border-secondary transition-all rounded-lg">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="check_circle">check_circle</span>
+<span class="font-technical-sm text-technical-sm text-secondary">६६% उपस्थिति</span>
+</div>
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-widest mb-1">आज उपस्थित</p>
+<p class="font-display-lg text-display-lg text-on-surface">८</p>
+</div>
+<!-- On Lunch -->
+<div class="bg-surface-container border border-outline-variant p-admin-gutter group hover:border-primary transition-all rounded-lg">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="coffee">coffee</span>
+<span class="font-technical-sm text-technical-sm text-primary">सक्रिय</span>
+</div>
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-widest mb-1">खाजा समय</p>
+<p class="font-display-lg text-display-lg text-on-surface">१</p>
+</div>
+<!-- Late -->
+<div class="bg-surface-container border border-outline-variant p-admin-gutter group hover:border-error transition-all rounded-lg">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="timer">timer</span>
+<span class="font-technical-sm text-technical-sm text-error">सतर्कता</span>
+</div>
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-widest mb-1">ढिलो आएका</p>
+<p class="font-display-lg text-display-lg text-on-surface">२</p>
+</div>
+</div>
+<!-- Main Dashboard Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-margin-edge">
+<!-- Staff Status Table (Left/Center Column) -->
+<div class="lg:col-span-8">
+<div class="bg-surface-container border border-outline-variant overflow-hidden rounded-lg">
+<div class="px-admin-gutter py-4 border-b border-outline-variant flex justify-between items-center bg-surface-container-low">
+<h2 class="font-headline-lg text-[20px] text-on-surface">कर्मचारी स्थिति</h2>
+<div class="flex gap-2">
+<button class="px-3 py-1 font-technical-sm text-technical-sm border border-outline-variant hover:bg-surface-container-high transition-colors rounded">निर्यात गर्नुहोस्</button>
+<button class="px-3 py-1 font-technical-sm text-technical-sm bg-primary text-on-primary hover:opacity-90 transition-colors rounded">कर्मचारी थप्नुहोस्</button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low border-b border-outline-variant">
+<th class="p-admin-gutter font-label-caps text-label-caps text-on-surface-variant uppercase">कर्मचारी</th>
+<th class="p-admin-gutter font-label-caps text-label-caps text-on-surface-variant uppercase">भूमिका</th>
+<th class="p-admin-gutter font-label-caps text-label-caps text-on-surface-variant uppercase text-right">स्थिति</th>
+<th class="p-admin-gutter font-label-caps text-label-caps text-on-surface-variant uppercase text-right">अन्तिम स्क्यान</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-outline-variant hover:bg-surface-container-highest transition-colors group">
+<td class="p-admin-gutter flex items-center gap-3">
+<div class="w-10 h-10 bg-outline rounded shadow-inner flex items-center justify-center overflow-hidden">
+<img data-alt="Staff Photo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFYLjat_JyqMA4H81qIxalyuMfoT6qPc58BsjKSrPhooKke-HJCpWlRUmn41u-zYflyjFbEBUrMhHTrQOgf0ZFvZwIUy_sKr5hFRICR0t2pIAsbVCahGo7KwMqw6f8ROr14QPJHcnqXflQgSgsDKFxE0YRzrZyG4uRMpngjrdA9SCc0ETWBYCiwvH8xjPEtf1icCg9ba9pjtcZy8YWI-RSeUjkxZ7Wk8JFs0j2oik0b2Afy1xLpWI_PQLFNPx4CLxMGS_EWGfb9Wl0"/>
+</div>
+<div>
+<p class="font-body-md text-body-md font-bold text-on-surface">रवि कुमार</p>
+<p class="font-technical-sm text-technical-sm text-on-surface-variant" style="font-size: 11px;">#ST-1092</p>
+</div>
+</td>
+<td class="p-admin-gutter font-body-md text-body-md text-on-surface-variant">मुख्य विकासकर्ता</td>
+<td class="p-admin-gutter text-right">
+<span class="inline-flex items-center gap-2 bg-primary/10 text-primary px-3 py-1 border border-primary/20 rounded">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="font-technical-sm text-technical-sm">खाजा समय</span>
+</span>
+</td>
+<td class="p-admin-gutter text-right font-technical-sm text-technical-sm text-on-surface-variant">१२:३० PM</td>
+</tr>
+<tr class="border-b border-outline-variant hover:bg-surface-container-highest transition-colors group">
+<td class="p-admin-gutter flex items-center gap-3">
+<div class="w-10 h-10 bg-outline rounded shadow-inner flex items-center justify-center overflow-hidden">
+<img data-alt="Staff Photo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwvsc_nCYqqz3MWdrW6cFPnVk7rd0R933FbU4iLir_1nDYf-FgLz59vMWyfVAqMBB7G9tHfZnkh-E4zPadoyVPApXMwDBnLYjrH9qgAgwIKD394NJ89OuRU6Ybcpf964MFLm2zl5PXgSByFZBSuUmtipdPnOJeW5dGB1XVtW2toMXiVoN32J9zRJgw8pT-xNz27Ag07ykDKyNWNbozj1BdV20gMtt1B5ErFkpqUd2wzg0znkcsMdxb0yX3fA3MBd3_TXj5AY__Vy6n"/>
+</div>
+<div>
+<p class="font-body-md text-body-md font-bold text-on-surface">सारा चेन</p>
+<p class="font-technical-sm text-technical-sm text-on-surface-variant" style="font-size: 11px;">#ST-1104</p>
+</div>
+</td>
+<td class="p-admin-gutter font-body-md text-body-md text-on-surface-variant">परियोजना प्रबन्धक</td>
+<td class="p-admin-gutter text-right">
+<span class="inline-flex items-center gap-2 bg-secondary/10 text-secondary px-3 py-1 border border-secondary/20 rounded">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+<span class="font-technical-sm text-technical-sm">उपस्थित</span>
+</span>
+</td>
+<td class="p-admin-gutter text-right font-technical-sm text-technical-sm text-on-surface-variant">०८:४५ AM</td>
+</tr>
+<tr class="border-b border-outline-variant hover:bg-surface-container-highest transition-colors group">
+<td class="p-admin-gutter flex items-center gap-3">
+<div class="w-10 h-10 bg-outline rounded shadow-inner flex items-center justify-center overflow-hidden">
+<img data-alt="Staff Photo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqZxDbGL6SFie-KEdxEsrPEegNVqS90zWsSqOTzgpVmHSenMAPIS8eKVPLxDtmesMs9A7kh3mOJtHveqWnPioZ7SyT8FpqTiXr03XST_6INnyS1P9v0AfP5MN6f5eTwNzmvzzTXf43jtgN2Btc6U5tLeBl9-oEH3kMS6Ye5xd5SGf66ds9BuWqs34cDeU-ji4520mAx4YJ28FPO-kG7EQcGStroAxl5EZz-ZXtlVhh8Tu_hDpnxCWlN6vZSAVhSZMQTF5d55p6x95A"/>
+</div>
+<div>
+<p class="font-body-md text-body-md font-bold text-on-surface">एलेना रोड्रिग्वेज</p>
+<p class="font-technical-sm text-technical-sm text-on-surface-variant" style="font-size: 11px;">#ST-1115</p>
+</div>
+</td>
+<td class="p-admin-gutter font-body-md text-body-md text-on-surface-variant">मानव संसाधन निर्देशक</td>
+<td class="p-admin-gutter text-right">
+<span class="inline-flex items-center gap-2 bg-error/10 text-error px-3 py-1 border border-error/20 rounded">
+<span class="w-2 h-2 rounded-full bg-error"></span>
+<span class="font-technical-sm text-technical-sm">ढिलो</span>
+</span>
+</td>
+<td class="p-admin-gutter text-right font-technical-sm text-technical-sm text-on-surface-variant">०९:३२ AM</td>
+</tr>
+<tr class="hover:bg-surface-container-highest transition-colors group">
+<td class="p-admin-gutter flex items-center gap-3">
+<div class="w-10 h-10 bg-outline rounded shadow-inner flex items-center justify-center overflow-hidden">
+<img data-alt="Staff Photo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJZfzB1ZwCt5saetNnMkNW0nYbZtMCRAcI4VxX9TJ2Q5qcctAHCnrZI1nqNAqlt4D3iU-_O2H8OeouDsgVdIbSoWklbMLhAkxDsCPGoTbZpqkeaRju0X56wNOxXhFo-dS8OiHj27gTmpgEpHLNxKbLYe8fnTidZTw5bu3eU44--GoB5rb4P2J-kph26SDt37tPkF-RNSRoQFDzRC95Lc_8ueVVLH2iKn-SyXP2v0ZF5olB65xQh55UyuU8AGiESbFj41Ur4kqzG3em"/>
+</div>
+<div>
+<p class="font-body-md text-body-md font-bold text-on-surface">मार्कस थोर्न</p>
+<p class="font-technical-sm text-technical-sm text-on-surface-variant" style="font-size: 11px;">#ST-1201</p>
+</div>
+</td>
+<td class="p-admin-gutter font-body-md text-body-md text-on-surface-variant">सञ्चालन</td>
+<td class="p-admin-gutter text-right">
+<span class="inline-flex items-center gap-2 bg-on-surface-variant/10 text-on-surface-variant px-3 py-1 border border-outline rounded">
+<span class="w-2 h-2 rounded-full bg-on-surface-variant"></span>
+<span class="font-technical-sm text-technical-sm">अनुपस्थित</span>
+</span>
+</td>
+<td class="p-admin-gutter text-right font-technical-sm text-technical-sm text-on-surface-variant">N/A</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- Live Activity Feed (Right Column) -->
+<div class="lg:col-span-4">
+<div class="bg-surface-container border border-outline-variant flex flex-col h-full overflow-hidden rounded-lg">
+<div class="px-admin-gutter py-4 border-b border-outline-variant bg-surface-container-low flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" data-icon="sensors">sensors</span>
+<h2 class="font-headline-lg text-[20px] text-on-surface">प्रत्यक्ष गतिविधि</h2>
+</div>
+<div class="flex-1 p-admin-gutter space-y-6 overflow-y-auto max-h-[600px]">
+<!-- Feed Item -->
+<div class="flex gap-4 relative">
+<div class="absolute left-[11px] top-6 bottom-[-24px] w-0.5 bg-outline-variant"></div>
+<div class="z-10 w-[24px] h-[24px] rounded-full bg-secondary flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary text-[14px]" data-icon="login">login</span>
+</div>
+<div>
+<p class="font-body-md text-body-md text-on-surface"><span class="font-bold">रवि कुमार</span> आगमन भयो</p>
+<p class="font-technical-sm text-technical-sm text-on-surface-variant">०९:०२ AM • बायोमेट्रिक प्रमाणित</p>
+</div>
+</div>
+<!-- Feed Item -->
+<div class="flex gap-4 relative">
+<div class="absolute left-[11px] top-6 bottom-[-24px] w-0.5 bg-outline-variant"></div>
+<div class="z-10 w-[24px] h-[24px] rounded-full bg-error flex items-center justify-center">
+<span class="material-symbols-outlined text-on-error text-[14px]" data-icon="warning">warning</span>
+</div>
+<div>
+<p class="font-body-md text-body-md text-on-surface"><span class="font-bold">एलेना रोड्रिग्वेज</span> ढिलो भएको पाइयो</p>
+<p class="font-technical-sm text-technical-sm text-on-surface-variant">०९:३२ AM • बफर समय नाघ्यो</p>
+</div>
+</div>
+<!-- Feed Item -->
+<div class="flex gap-4 relative">
+<div class="absolute left-[11px] top-6 bottom-[-24px] w-0.5 bg-outline-variant"></div>
+<div class="z-10 w-[24px] h-[24px] rounded-full bg-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary text-[14px]" data-icon="coffee">coffee</span>
+</div>
+<div>
+<p class="font-body-md text-body-md text-on-surface"><span class="font-bold">सारा चेन</span> खाजा ब्रेक</p>
+<p class="font-technical-sm text-technical-sm text-on-surface-variant">१२:१५ PM • टर्मिनल ०४</p>
+</div>
+</div>
+<!-- Feed Item -->
+<div class="flex gap-4 relative">
+<div class="absolute left-[11px] top-6 bottom-[-24px] w-0.5 bg-outline-variant"></div>
+<div class="z-10 w-[24px] h-[24px] rounded-full bg-outline flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface text-[14px]" data-icon="sync">sync</span>
+</div>
+<div>
+<p class="font-body-md text-body-md text-on-surface">साप्ताहिक ब्याकअप सम्पन्न</p>
+<p class="font-technical-sm text-technical-sm text-on-surface-variant">०१:०० PM • क्लाउड स्टोरेज</p>
+</div>
+</div>
+<!-- Feed Item -->
+<div class="flex gap-4">
+<div class="z-10 w-[24px] h-[24px] rounded-full bg-primary/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-[14px]" data-icon="person_add">person_add</span>
+</div>
+<div>
+<p class="font-body-md text-body-md text-on-surface">नयाँ प्रोफाइल दर्ता भयो</p>
+<p class="font-technical-sm text-technical-sm text-on-surface-variant">०२:१५ PM • प्रणाली प्रशासक</p>
+</div>
+</div>
+</div>
+<button class="w-full py-4 font-label-caps text-label-caps text-on-surface-variant hover:bg-surface-container-high transition-colors border-t border-outline-variant tracking-widest uppercase">सबै लगहरू हेर्नुहोस्</button>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Bar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center h-[64px] bg-surface border-t border-outline-variant z-50 transition-all duration-150">
+<a class="flex flex-col items-center justify-center bg-primary text-on-primary rounded-full p-2 scale-90 active:scale-75 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 scale-90 active:scale-75 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 scale-90 active:scale-75 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 scale-90 active:scale-75 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</a>
+</nav>
+<script>
+        // Simple micro-interactions for the activity feed
+        const feedContainer = document.querySelector('.overflow-y-auto');
+        if (feedContainer) {
+            setInterval(() => {
+                const firstItem = feedContainer.children[0];
+                if (firstItem && Math.random() > 0.8) {
+                    firstItem.style.opacity = '0.7';
+                    setTimeout(() => firstItem.style.opacity = '1', 500);
+                }
+            }, 5000);
+        }
+    </script>
+</body></html>

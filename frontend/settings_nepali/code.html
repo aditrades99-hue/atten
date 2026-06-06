@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+
+<html class="light" lang="ne"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>StaffTrack - सेटिङहरू</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&amp;family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&amp;family=Syne:wght@400..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        body {
+            background-color: #fbfbe2; /* background from config */
+            color: #1b1d0e; /* on-background from config */
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-container": "#d6e7a1",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#6e3900",
+                        "tertiary": "#904d00",
+                        "on-surface": "#1b1d0e",
+                        "inverse-primary": "#ffb4a5",
+                        "error": "#D9534F",
+                        "tertiary-fixed": "#ffdcc3",
+                        "on-tertiary-container": "#462200",
+                        "on-primary-fixed": "#3e0500",
+                        "outline": "#D2B48C",
+                        "surface-container": "#efefd7",
+                        "primary": "#9f402d",
+                        "surface-container-low": "#f5f5dc",
+                        "on-tertiary-fixed": "#2f1500",
+                        "surface-container-highest": "#e4e4cc",
+                        "surface-tint": "#9f402d",
+                        "on-error-container": "#93000a",
+                        "surface-variant": "#e4e4cc",
+                        "secondary-fixed-dim": "#bdce89",
+                        "primary-fixed-dim": "#ffb4a5",
+                        "on-secondary-container": "#5a682f",
+                        "on-background": "#1b1d0e",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-fixed": "#d9eaa3",
+                        "on-surface-variant": "#56423e",
+                        "primary-fixed": "#ffdad3",
+                        "secondary": "#56642b",
+                        "on-secondary-fixed": "#161f00",
+                        "surface-container-high": "#eaead1",
+                        "on-error": "#ffffff",
+                        "surface": "#FFFDF5",
+                        "on-secondary-fixed-variant": "#3e4c16",
+                        "tertiary-fixed-dim": "#ffb77d",
+                        "on-secondary": "#ffffff",
+                        "background": "#fbfbe2",
+                        "surface-dim": "#dbdcc3",
+                        "primary-container": "#e2725b",
+                        "tertiary-container": "#dd7900",
+                        "on-primary": "#ffffff",
+                        "on-primary-fixed-variant": "#802918",
+                        "error-container": "#ffdad6",
+                        "inverse-surface": "#303221",
+                        "outline-variant": "#ddc0ba",
+                        "on-primary-container": "#5a0d02",
+                        "surface-bright": "#fbfbe2",
+                        "inverse-on-surface": "#f2f2d9"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "touch-target": "48px",
+                        "admin-gutter": "16px",
+                        "kiosk-gap": "24px",
+                        "margin-edge": "32px",
+                        "base": "8px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["DM Sans"],
+                        "label-caps": ["JetBrains Mono"],
+                        "headline-lg": ["Syne"],
+                        "display-lg": ["Syne"],
+                        "technical-sm": ["JetBrains Mono"],
+                        "headline-lg-mobile": ["Syne"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "technical-sm": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body-md text-body-md">
+<!-- Top AppBar (Mobile/Tablet) -->
+<header class="md:hidden fixed top-0 w-full z-50 bg-surface border-b border-outline-variant flex justify-between items-center px-margin-edge h-touch-target">
+<div class="flex items-center gap-base">
+<span class="material-symbols-outlined text-primary" data-icon="fingerprint">fingerprint</span>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-primary font-bold">StaffTrack</h1>
+</div>
+<div class="font-label-caps text-on-surface-variant" id="digital-clock-mobile">00:00:00</div>
+</header>
+<!-- Sidebar Navigation Drawer (Desktop) -->
+<aside class="hidden md:flex fixed left-0 top-0 h-full w-[280px] flex-col gap-base py-margin-edge bg-surface-container border-r border-outline-variant">
+<div class="px-admin-gutter mb-8">
+<div class="flex items-center gap-base mb-2">
+<span class="material-symbols-outlined text-primary" data-icon="fingerprint">fingerprint</span>
+<span class="font-headline-lg text-headline-lg text-primary font-bold">StaffTrack</span>
+</div>
+<p class="font-label-caps text-on-surface-variant">ADMIN TERMINAL</p>
+</div>
+<nav class="flex flex-col flex-grow">
+<a class="text-on-surface-variant flex items-center gap-base px-admin-gutter py-base hover:bg-surface-container-high transition-all duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-caps">Dashboard</span>
+</a>
+<a class="text-on-surface-variant flex items-center gap-base px-admin-gutter py-base hover:bg-surface-container-high transition-all duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+<span class="font-label-caps">Staff Management</span>
+</a>
+<a class="text-on-surface-variant flex items-center gap-base px-admin-gutter py-base hover:bg-surface-container-high transition-all duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span class="font-label-caps">Attendance Reports</span>
+</a>
+<a class="text-primary font-bold border-r-4 border-primary flex items-center gap-base px-admin-gutter py-base bg-surface-container-high transition-all duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-caps">System Settings</span>
+</a>
+</nav>
+<div class="px-admin-gutter mt-auto">
+<div class="p-4 border border-outline bg-surface rounded-lg flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container font-bold">A</div>
+<div>
+<p class="font-label-caps text-on-surface">प्रशासक</p>
+<p class="text-[10px] text-on-surface-variant">Admin Console v2.4</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="md:ml-[280px] pt-[48px] md:pt-0 min-h-screen p-margin-edge">
+<div class="max-w-4xl mx-auto">
+<!-- Settings Header -->
+<header class="mb-12">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-2">सेटिङहरू</h2>
+<div class="h-1 w-24 bg-primary-container"></div>
+</header>
+<!-- Bento Grid / Grouped Sections -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-kiosk-gap">
+<!-- Account Settings -->
+<section class="bg-surface border border-outline p-6 hover:border-primary transition-all duration-200 group">
+<div class="flex items-center gap-4 mb-6">
+<div class="p-3 bg-secondary-container rounded-lg group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-on-secondary-container" data-icon="person">person</span>
+</div>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile">प्रोफाइल सेटिङहरू</h3>
+</div>
+<ul class="space-y-4">
+<li class="flex justify-between items-center py-2 border-b border-outline-variant border-dashed">
+<span class="font-body-md">नाम सम्पादन गर्नुहोस्</span>
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="chevron_right">chevron_right</span>
+</li>
+<li class="flex justify-between items-center py-2 border-b border-outline-variant border-dashed">
+<span class="font-body-md">इमेल ठेगाना</span>
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="chevron_right">chevron_right</span>
+</li>
+</ul>
+</section>
+<!-- Notifications -->
+<section class="bg-surface border border-outline p-6 hover:border-primary transition-all duration-200 group">
+<div class="flex items-center gap-4 mb-6">
+<div class="p-3 bg-tertiary-fixed rounded-lg group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-on-tertiary-container" data-icon="notifications_active">notifications_active</span>
+</div>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile">सूचनाहरू</h3>
+</div>
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<span class="font-body-md">पुश सूचनाहरू</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+</div>
+<div class="flex items-center justify-between">
+<span class="font-body-md">इमेल सूचनाहरू</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+</div>
+</div>
+</section>
+<!-- Language Selection -->
+<section class="bg-surface border border-outline p-6 hover:border-primary transition-all duration-200 group md:col-span-2">
+<div class="flex items-center gap-4 mb-6">
+<div class="p-3 bg-primary-fixed rounded-lg group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-on-primary-fixed-variant" data-icon="translate">translate</span>
+</div>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile">भाषा चयन (Language Selection)</h3>
+</div>
+<div class="flex flex-wrap gap-4">
+<button class="flex-1 min-w-[120px] p-4 border-2 border-primary bg-primary-fixed text-on-primary-fixed-variant rounded-lg font-label-caps text-center">
+                            नेपाली
+                        </button>
+<button class="flex-1 min-w-[120px] p-4 border border-outline hover:border-primary-container bg-surface rounded-lg font-label-caps text-center transition-colors">
+                            ENGLISH
+                        </button>
+<button class="flex-1 min-w-[120px] p-4 border border-outline hover:border-primary-container bg-surface rounded-lg font-label-caps text-center transition-colors">
+                            हिंदी
+                        </button>
+</div>
+</section>
+<!-- Security & Privacy -->
+<section class="bg-surface border border-outline p-6 hover:border-primary transition-all duration-200 group">
+<div class="flex items-center gap-4 mb-6">
+<div class="p-3 bg-secondary-container rounded-lg group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-on-secondary-container" data-icon="security">security</span>
+</div>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile">सुरक्षा र गोपनीयता</h3>
+</div>
+<div class="space-y-4">
+<button class="w-full text-left font-body-md py-2 border-b border-outline-variant flex justify-between items-center group/item">
+<span>पासवर्ड परिवर्तन गर्नुहोस्</span>
+<span class="material-symbols-outlined text-on-surface-variant group-hover/item:translate-x-1 transition-transform" data-icon="arrow_forward">arrow_forward</span>
+</button>
+<button class="w-full text-left font-body-md py-2 flex justify-between items-center group/item">
+<span>दुई-चरण प्रमाणीकरण</span>
+<span class="material-symbols-outlined text-on-surface-variant group-hover/item:translate-x-1 transition-transform" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</section>
+<!-- App Preferences -->
+<section class="bg-surface border border-outline p-6 hover:border-primary transition-all duration-200 group">
+<div class="flex items-center gap-4 mb-6">
+<div class="p-3 bg-surface-container-highest rounded-lg group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-on-surface" data-icon="tune">tune</span>
+</div>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile">प्रणाली प्राथमिकताहरू</h3>
+</div>
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<span class="font-body-md">गाढा मोड (Dark Mode)</span>
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="dark_mode">dark_mode</span>
+</div>
+<div class="flex items-center justify-between">
+<span class="font-body-md">समय ढाँचा (24 घण्टा)</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:bg-primary-container after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all"></div>
+</label>
+</div>
+</div>
+</section>
+<!-- Help & Support -->
+<section class="bg-surface border border-outline p-6 hover:border-primary transition-all duration-200 group md:col-span-2">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+<div class="flex items-center gap-4">
+<div class="p-3 bg-tertiary-fixed-dim rounded-lg group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-on-tertiary-fixed" data-icon="help_center">help_center</span>
+</div>
+<div>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile">मद्दत र समर्थन</h3>
+<p class="font-body-md text-on-surface-variant">हाम्रो टोलीलाई सम्पर्क गर्नुहोस् वा मद्दत केन्द्र हेर्नुहोस्</p>
+</div>
+</div>
+<button class="px-8 py-3 border-2 border-primary text-primary font-label-caps rounded-lg hover:bg-primary hover:text-white transition-all">
+                            सहयोग लिनुहोस्
+                        </button>
+</div>
+</section>
+</div>
+<!-- Log Out Button Section -->
+<footer class="mt-16 flex flex-col items-center justify-center gap-8 pb-12">
+<div class="w-full h-px bg-outline-variant"></div>
+<div class="relative w-full max-w-xs group">
+<div class="absolute inset-0 bg-primary-container translate-x-1 translate-y-1 transition-transform group-active:translate-x-0 group-active:translate-y-0"></div>
+<button class="relative w-full py-4 bg-primary text-on-primary font-label-caps border border-on-primary-container flex justify-center items-center gap-2 hover:-translate-x-1 hover:-translate-y-1 active:translate-x-0 active:translate-y-0 transition-all">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+                        लग आउट
+                    </button>
+</div>
+<div class="flex flex-col items-center gap-2 opacity-60">
+<p class="font-technical-sm text-on-surface-variant">ID: ADM-9921-STF</p>
+<p class="font-technical-sm text-on-surface-variant uppercase tracking-widest">Powered by StaffTrack Industrial OS</p>
+</div>
+</footer>
+</div>
+</main>
+<!-- Bottom Navigation (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center h-[64px] px-margin-edge bg-surface-container-lowest border-t border-outline-variant z-50">
+<div class="flex flex-col items-center justify-center text-on-surface-variant p-2">
+<span class="material-symbols-outlined" data-icon="admin_panel_settings">admin_panel_settings</span>
+<span class="text-[10px] font-label-caps">ADMIN</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full p-2 h-12 w-12 -mt-6 border-4 border-background shadow-lg">
+<span class="material-symbols-outlined" data-icon="qr_code_scanner">qr_code_scanner</span>
+</div>
+<div class="flex flex-col items-center justify-center text-primary p-2">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="text-[10px] font-label-caps">SETTINGS</span>
+</div>
+</nav>
+<script>
+        // Digital Clock Update Logic
+        function updateClock() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-GB', { hour12: false });
+            const clockElements = [document.getElementById('digital-clock-mobile')];
+            clockElements.forEach(el => {
+                if(el) el.textContent = timeString;
+            });
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // Subtle Interaction Logic
+        document.querySelectorAll('section').forEach(section => {
+            section.addEventListener('mouseenter', () => {
+                section.classList.add('shadow-md');
+            });
+            section.addEventListener('mouseleave', () => {
+                section.classList.remove('shadow-md');
+            });
+        });
+    </script>
+</body></html>

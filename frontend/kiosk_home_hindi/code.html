@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+
+<html lang="hi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>स्टाफ़ट्रैक किओस्क</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&amp;family=DM+Sans:wght@400;500&amp;family=JetBrains+Mono:wght@500;700&amp;family=Noto+Sans+Devanagari:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom scrollbar for kiosk grid */
+        .kiosk-grid::-webkit-scrollbar {
+            width: 6px;
+        }
+        .kiosk-grid::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .kiosk-grid::-webkit-scrollbar-thumb {
+            background: #d2b48c;
+            border-radius: 10px;
+        }
+        body {
+            font-family: 'Noto Sans Devanagari', 'DM Sans', sans-serif;
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "background": "#F5F5DC", /* Cream/Beige background */
+                      "surface": "#FFFDF5",
+                      "surface-container": "#FDF6E3",
+                      "surface-container-high": "#FAF0D7",
+                      "surface-container-highest": "#F2E8CF",
+                      "surface-container-low": "#FEFAF0",
+                      "surface-container-lowest": "#FFFFFF",
+                      "primary": "#E2725B", /* Terracotta accent */
+                      "secondary": "#8A9A5B", /* Sage accent */
+                      "tertiary": "#FF8C00", /* Sunset Orange accent */
+                      "on-surface": "#4A3728",
+                      "on-surface-variant": "#7A6A53",
+                      "outline": "#D2B48C",
+                      "outline-variant": "#E6D5B8",
+                      "error": "#D9534F",
+                      "error-container": "#FFDAD6",
+                      "on-error-container": "#410002"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "margin-edge": "32px",
+                      "base": "8px",
+                      "admin-gutter": "16px",
+                      "touch-target": "48px",
+                      "kiosk-gap": "24px"
+              },
+              "fontFamily": {
+                      "headline-lg": ["Syne", "Noto Sans Devanagari"],
+                      "display-lg": ["Syne", "Noto Sans Devanagari"],
+                      "label-caps": ["JetBrains Mono", "Noto Sans Devanagari"],
+                      "body-md": ["DM Sans", "Noto Sans Devanagari"],
+                      "technical-sm": ["JetBrains Mono", "Noto Sans Devanagari"],
+                      "headline-lg-mobile": ["Syne", "Noto Sans Devanagari"]
+              },
+              "fontSize": {
+                      "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                      "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                      "label-caps": ["12px", {"lineHeight": "1.0", "fontWeight": "700"}],
+                      "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "technical-sm": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                      "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "700"}]
+              }
+            },
+          },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen flex flex-col overflow-hidden selection:bg-primary/20">
+<!-- TopAppBar -->
+<header class="bg-surface border-b border-outline-variant flex justify-between items-center px-margin-edge h-touch-target w-full fixed top-0 z-50 transition-colors duration-200">
+<div class="flex items-center gap-base">
+<span class="material-symbols-outlined text-primary" data-icon="fingerprint">fingerprint</span>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-primary font-bold">स्टाफ़ट्रैक</h1>
+</div>
+<div class="flex flex-col items-end">
+<div class="font-label-caps text-headline-lg-mobile text-primary tracking-widest leading-none" id="digital-clock">00:00:00</div>
+<div class="font-technical-sm text-on-surface-variant uppercase text-[10px]" id="current-date">सोमवार, 12 अक्टूबर 2023</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow pt-[64px] pb-[80px] px-margin-edge overflow-y-auto kiosk-grid">
+<!-- Intro Section -->
+<div class="py-admin-gutter mb-base">
+<h2 class="font-display-lg text-display-lg text-on-surface">टीम उपस्थिति</h2>
+<p class="font-body-md text-on-surface-variant max-w-2xl">अपनी स्थिति अपडेट करने के लिए नीचे अपनी प्रोफ़ाइल चुनें। सुनिश्चित करें कि बायोमेट्रिक स्कैन के लिए आपका चेहरा स्पष्ट रूप से दिखाई दे रहा है।</p>
+</div>
+<!-- Kiosk Staff Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-kiosk-gap pb-margin-edge">
+<!-- Staff Card 1: Absent -->
+<div class="bg-surface-container-high border border-outline-variant p-admin-gutter flex flex-col items-center gap-base transition-all duration-200 hover:border-primary group relative overflow-hidden">
+<div class="absolute bottom-0 left-0 w-full h-1 bg-error"></div>
+<div class="w-24 h-24 rounded-full border-2 border-outline-variant overflow-hidden bg-surface-container p-1 mb-base group-hover:border-primary transition-colors">
+<img alt="Alex Rivers" class="w-full h-full object-cover rounded-full grayscale group-hover:grayscale-0 transition-all" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLeLO63v83YoszsOTknqFMplXQXSTGPot6U5q4OXQ8TyN_EtLPsK8mJUTCJHXFXBDi1dKUwUc7R_-KWrNZnC0EfV9cg8KTgl9HxMzL_CRYiZtvh7CR850c5XnYDOrL36MeYM1QwQ8HRkE6mdj63G9uQfV-hdxkWqp1U32aP8qUVThZxOT009HxuqU6nPkW9GT93dwpGR073VGKtZSmEnTPABJlw28lcefJS5hzTJG1QDdwtklx5dgMnfi2khqQNvScKQbeNJUsWwTH"/>
+</div>
+<h3 class="font-headline-lg text-on-surface">एलेक्स रिवर्स</h3>
+<div class="bg-error/10 px-base py-1 border border-error/20 rounded-none">
+<span class="font-technical-sm text-error uppercase">🔴 अनुपस्थित</span>
+</div>
+<button class="mt-base w-full bg-primary text-white h-touch-target font-label-caps uppercase tracking-wider hover:brightness-110 transition-all flex items-center justify-center gap-2 active:scale-95">
+<span class="material-symbols-outlined text-[18px]" data-icon="login">login</span>
+                आगमन चिह्नित करें
+            </button>
+</div>
+<!-- Staff Card 2: Present -->
+<div class="bg-surface-container-high border border-outline-variant p-admin-gutter flex flex-col items-center gap-base transition-all duration-200 hover:border-primary group relative overflow-hidden">
+<div class="absolute bottom-0 left-0 w-full h-1 bg-secondary"></div>
+<div class="w-24 h-24 rounded-full border-2 border-secondary overflow-hidden bg-surface-container p-1 mb-base">
+<img alt="Elena Vance" class="w-full h-full object-cover rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_GPuPy7tf5HeY3EVQRUQ4bRQve26XePC0j3xmovoa15FHENmRix-sNJD3ZATD5KUr6E4uqXxDqRWaWOTCrvgyaMoYTT8jY8V0VuiLlyO6bIZftWUG6Fv4ZRXkb-wenQuSCpAxfHuddK0a_gGcxEzugGTaYPYuHioPbEZYtD_PURw5WVrkmeV6xIokpq6TtePcfBE589AFE8aqy3xmffUlqV5DonrNuaBdd8tMuckn58ULYV7UH7X1kXkbjyS8-1qpeA-y-i-lzjCR"/>
+</div>
+<h3 class="font-headline-lg text-on-surface">ऐलेना वेंस</h3>
+<div class="bg-secondary/10 px-base py-1 border border-secondary/20 rounded-none">
+<span class="font-technical-sm text-secondary uppercase">🟢 उपस्थित</span>
+</div>
+<button class="mt-base w-full bg-surface-container text-on-surface-variant h-touch-target border border-outline-variant font-label-caps uppercase tracking-wider hover:bg-error/10 hover:text-error hover:border-error transition-all flex items-center justify-center gap-2 active:scale-95">
+<span class="material-symbols-outlined text-[18px]" data-icon="logout">logout</span>
+                प्रस्थान चिह्नित करें
+            </button>
+</div>
+<!-- Staff Card 3: Absent -->
+<div class="bg-surface-container-high border border-outline-variant p-admin-gutter flex flex-col items-center gap-base transition-all duration-200 hover:border-primary group relative overflow-hidden">
+<div class="absolute bottom-0 left-0 w-full h-1 bg-error"></div>
+<div class="w-24 h-24 rounded-full border-2 border-outline-variant overflow-hidden bg-surface-container p-1 mb-base group-hover:border-primary transition-colors">
+<img alt="Marcus Thorne" class="w-full h-full object-cover rounded-full grayscale group-hover:grayscale-0 transition-all" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPkZ-mg4j-bEXKiPyAFEfKSBE58MCrWpziLhUGc83RCPB_BH6boEkvKW7aNOG2EAajrYSYPx4dIo35FnDGgOmMMXPkHy6Y8Xt8dYaKNLHaVnGw4ZJUyFBZu5coZRLbY-6wO3XMpu65nfpHjy1BEysUoRTWI0juysTkkThlQy9Nz7qNnNejxeXMAhDmvRMaRYZwkxojVSwUUvnmOtWPm3cYfTmVRqirmTdyUSGHkt-oOaVfZXXOKGWHhJ_YmBxOZ9VdBr2VRS8WSzfK"/>
+</div>
+<h3 class="font-headline-lg text-on-surface">मार्कस थोर्न</h3>
+<div class="bg-error/10 px-base py-1 border border-error/20 rounded-none">
+<span class="font-technical-sm text-error uppercase">🔴 अनुपस्थित</span>
+</div>
+<button class="mt-base w-full bg-primary text-white h-touch-target font-label-caps uppercase tracking-wider hover:brightness-110 transition-all flex items-center justify-center gap-2 active:scale-95">
+<span class="material-symbols-outlined text-[18px]" data-icon="login">login</span>
+                आगमन चिह्नित करें
+            </button>
+</div>
+<!-- Staff Card 4: Lunch -->
+<div class="bg-surface-container-high border border-outline-variant p-admin-gutter flex flex-col items-center gap-base transition-all duration-200 hover:border-primary group relative overflow-hidden">
+<div class="absolute bottom-0 left-0 w-full h-1 bg-tertiary"></div>
+<div class="w-24 h-24 rounded-full border-2 border-tertiary overflow-hidden bg-surface-container p-1 mb-base">
+<img alt="Sarah Jenkins" class="w-full h-full object-cover rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC63L74nYDQvtkGDQFvuFNTHAstF8vj_qwt9R57QI4hOeV0YWQ2PrSmz24COCNFUpEeT0UrZPy0yQVp5HKEv2ESGK_quhhZlrpdeA83iK7EyuXnAL7bK2n1D7Xt_y5BsiizeSAabFKbD0Gb2UCNDKOsZ2fHkfAXg-O81EHA7r3qQ6zDHL4uFJXvCbQr7kVV3KYji8yIaxrifRsJdBLbahnp9VougJUV-BqRTY1ua1ZdspYnG_Y0HDpdXFKgTudXT1PRPH6OcS7qz4Y8"/>
+</div>
+<h3 class="font-headline-lg text-on-surface">सारा जेन्किन्स</h3>
+<div class="bg-tertiary/10 px-base py-1 border border-tertiary/20 rounded-none">
+<span class="font-technical-sm text-tertiary uppercase">☕ ब्रेक पर</span>
+</div>
+<button class="mt-base w-full bg-primary text-white h-touch-target font-label-caps uppercase tracking-wider hover:brightness-110 transition-all flex items-center justify-center gap-2 active:scale-95">
+<span class="material-symbols-outlined text-[18px]" data-icon="back_hand">back_hand</span>
+                काम फिर से शुरू करें
+            </button>
+</div>
+<!-- Staff Card 5: Absent -->
+<div class="bg-surface-container-high border border-outline-variant p-admin-gutter flex flex-col items-center gap-base transition-all duration-200 hover:border-primary group relative overflow-hidden">
+<div class="absolute bottom-0 left-0 w-full h-1 bg-error"></div>
+<div class="w-24 h-24 rounded-full border-2 border-outline-variant overflow-hidden bg-surface-container p-1 mb-base group-hover:border-primary transition-colors">
+<img alt="David Chen" class="w-full h-full object-cover rounded-full grayscale group-hover:grayscale-0 transition-all" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCXnWoujQqhpe_8gpdbCBnizlUHx_O4crAW_Bf-un6k85UESRTdhUaYlzMFvo1RRiaeYEFcKmzSJSiT0Img1lQ-cwacsGjOR8cARQRhRXKupezR0aiKsO5jT8vDJ5mkAkZb43HlY0HcsNub0kQ1AsN-oE3A81MBpQUlA4Bxd7W9IX3iFTPuDhA1DoeL-Kt4Au9xDImYPhns31OLH-lEE6khppwtsq-n0eMJyCpMvy-xOLQTsqBCocWP0mUwTQ9TmGxcfnt_sYukEpKB"/>
+</div>
+<h3 class="font-headline-lg text-on-surface">डेविड चेन</h3>
+<div class="bg-error/10 px-base py-1 border border-error/20 rounded-none">
+<span class="font-technical-sm text-error uppercase">🔴 अनुपस्थित</span>
+</div>
+<button class="mt-base w-full bg-primary text-white h-touch-target font-label-caps uppercase tracking-wider hover:brightness-110 transition-all flex items-center justify-center gap-2 active:scale-95">
+<span class="material-symbols-outlined text-[18px]" data-icon="login">login</span>
+                आगमन चिह्नित करें
+            </button>
+</div>
+<!-- Staff Card 6: Absent -->
+<div class="bg-surface-container-high border border-outline-variant p-admin-gutter flex flex-col items-center gap-base transition-all duration-200 hover:border-primary group relative overflow-hidden">
+<div class="absolute bottom-0 left-0 w-full h-1 bg-error"></div>
+<div class="w-24 h-24 rounded-full border-2 border-outline-variant overflow-hidden bg-surface-container p-1 mb-base group-hover:border-primary transition-colors">
+<img alt="Priya Sharma" class="w-full h-full object-cover rounded-full grayscale group-hover:grayscale-0 transition-all" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCezE8AYehhObtL3363KF1bVWjmRRU3UpRzk5Vr4uoGWbtUT2BhsICEXIz-T9lpOqA0VngSxLxhRAVlPXiwQwgDvUpScmGcGN3lAO05mqcF4TNxWfqarnLPYuB19MFfWmD21DVB6ZckW9G4xnnkE9OMPxo_-XxNpjxUe1iU42v76R_b0ZZSeJIGvJjnkOaqSLe5hNQWWxXjMo2jgi1EOKWbsHP3ecdJ4fDHTEQEkQDe21JS-Y_RJbobXMUEYh2OC7F0Gw5n5loPhUXH"/>
+</div>
+<h3 class="font-headline-lg text-on-surface">प्रिया शर्मा</h3>
+<div class="bg-error/10 px-base py-1 border border-error/20 rounded-none">
+<span class="font-technical-sm text-error uppercase">🔴 अनुपस्थित</span>
+</div>
+<button class="mt-base w-full bg-primary text-white h-touch-target font-label-caps uppercase tracking-wider hover:brightness-110 transition-all flex items-center justify-center gap-2 active:scale-95">
+<span class="material-symbols-outlined text-[18px]" data-icon="login">login</span>
+                आगमन चिह्नित करें
+            </button>
+</div>
+</div>
+</main>
+<!-- BottomNavBar / Utility Actions -->
+<nav class="fixed bottom-0 left-0 w-full bg-surface border-t border-outline-variant flex justify-around items-center h-[72px] px-margin-edge z-50">
+<button class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:bg-surface-container-high transition-colors group">
+<span class="material-symbols-outlined text-[24px]" data-icon="admin_panel_settings">admin_panel_settings</span>
+<span class="font-label-caps text-[10px] mt-1 group-hover:text-primary">एडमिन लॉगिन</span>
+</button>
+<!-- Large Primary Action -->
+<button class="bg-primary text-white px-margin-edge h-touch-target rounded-full font-label-caps uppercase tracking-widest flex items-center gap-base hover:brightness-110 active:scale-95 transition-all shadow-md">
+<span class="material-symbols-outlined" data-icon="report_problem">report_problem</span>
+        अपनी अनुपस्थिति की रिपोर्ट करें
+    </button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:bg-surface-container-high transition-colors group">
+<span class="material-symbols-outlined text-[24px]" data-icon="qr_code_scanner">qr_code_scanner</span>
+<span class="font-label-caps text-[10px] mt-1 group-hover:text-primary">मोबाइल ऐप</span>
+</button>
+</nav>
+<!-- Biometric Overlay Simulation (Hidden by default) -->
+<div class="fixed inset-0 bg-background/95 z-[100] hidden flex flex-col items-center justify-center transition-all duration-300" id="biometric-overlay">
+<div class="relative w-80 h-80 rounded-full border-2 border-primary/50 flex items-center justify-center overflow-hidden">
+<!-- Pulsing ring -->
+<div class="absolute inset-0 border-4 border-primary animate-ping opacity-20 rounded-full"></div>
+<div class="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent"></div>
+<span class="material-symbols-outlined text-primary text-[64px]" data-icon="face">face</span>
+<!-- Scanning line -->
+<div class="absolute top-0 left-0 w-full h-1 bg-primary shadow-[0_0_15px_#E2725B] animate-[scan_2s_infinite]"></div>
+</div>
+<div class="mt-margin-edge text-center">
+<h2 class="font-headline-lg text-primary uppercase tracking-widest">बायोमेट्रिक्स प्रोसेसिंग</h2>
+<p class="font-technical-sm text-on-surface-variant mt-2">दृश्य क्षेत्र से बाहर न जाएं</p>
+</div>
+<button class="mt-margin-edge font-label-caps text-on-surface-variant hover:text-error transition-colors" onclick="toggleOverlay()">रद्द करें</button>
+</div>
+<script>
+    // Digital Clock Logic
+    function updateClock() {
+        const now = new Date();
+        const h = String(now.getHours()).padStart(2, '0');
+        const m = String(now.getMinutes()).padStart(2, '0');
+        const s = String(now.getSeconds()).padStart(2, '0');
+        document.getElementById('digital-clock').textContent = `${h}:${m}:${s}`;
+
+        const options = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
+        // Simplified Hindi date display for demo
+        const dateStr = now.toLocaleDateString('hi-IN', options).toUpperCase();
+        document.getElementById('current-date').textContent = dateStr;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Biometric Toggle Simulation
+    function toggleOverlay() {
+        const overlay = document.getElementById('biometric-overlay');
+        overlay.classList.toggle('hidden');
+    }
+
+    // Attach to all "Mark" buttons for demo
+    document.querySelectorAll('button').forEach(btn => {
+        if (btn.textContent.includes('चिह्नित') || btn.textContent.includes('शुरू')) {
+            btn.addEventListener('click', toggleOverlay);
+        }
+    });
+
+    // Add custom scan animation keyframe via JS
+    const style = document.createElement('style');
+    style.innerHTML = `
+        @keyframes scan {
+            0% { top: 0; }
+            50% { top: 100%; }
+            100% { top: 0; }
+        }
+    `;
+    document.head.appendChild(style);
+</script>
+</body></html>

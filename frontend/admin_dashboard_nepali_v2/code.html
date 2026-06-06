@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+
+<html lang="ne"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&amp;family=DM+Sans:wght@400;500;700&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-dim": "#dbdcc3",
+                    "primary-container": "#e2725b",
+                    "on-tertiary-fixed-variant": "#6e3900",
+                    "on-primary-fixed-variant": "#802918",
+                    "surface-container-high": "#eaead1",
+                    "surface-container-lowest": "#ffffff",
+                    "surface": "#FFFDF5",
+                    "primary-fixed": "#ffdad3",
+                    "on-background": "#1b1d0e",
+                    "on-surface-variant": "#56423e",
+                    "surface-bright": "#fbfbe2",
+                    "on-primary-container": "#5a0d02",
+                    "surface-container-low": "#f5f5dc",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary": "#ffffff",
+                    "on-secondary-fixed": "#161f00",
+                    "surface-tint": "#9f402d",
+                    "background": "#fbfbe2",
+                    "on-surface": "#1b1d0e",
+                    "outline-variant": "#ddc0ba",
+                    "secondary": "#56642b",
+                    "on-secondary-container": "#5a682f",
+                    "tertiary-fixed-dim": "#ffb77d",
+                    "surface-variant": "#e4e4cc",
+                    "secondary-fixed": "#d9eaa3",
+                    "on-tertiary-fixed": "#2f1500",
+                    "on-error-container": "#93000a",
+                    "surface-container": "#FDF6E3",
+                    "primary-fixed-dim": "#ffb4a5",
+                    "tertiary": "#904d00",
+                    "primary": "#9f402d",
+                    "error": "#D9534F",
+                    "on-primary": "#ffffff",
+                    "tertiary-container": "#dd7900",
+                    "tertiary-fixed": "#ffdcc3",
+                    "inverse-primary": "#ffb4a5",
+                    "surface-surface": "#303221",
+                    "inverse-on-surface": "#f2f2d9",
+                    "error-container": "#ffdad6",
+                    "on-tertiary-container": "#462200",
+                    "secondary-container": "#d6e7a1",
+                    "secondary-fixed-dim": "#bdce89",
+                    "on-error": "#ffffff",
+                    "outline": "#D2B48C",
+                    "on-primary-fixed": "#3e0500"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "kiosk-gap": "24px",
+                    "touch-target": "48px",
+                    "base": "8px",
+                    "admin-gutter": "16px",
+                    "margin-edge": "32px"
+            },
+            "fontFamily": {
+                    "label-caps": ["JetBrains Mono"],
+                    "technical-sm": ["JetBrains Mono"],
+                    "body-md": ["DM Sans"],
+                    "display-lg": ["Syne"],
+                    "headline-lg": ["Syne"],
+                    "headline-lg-mobile": ["Syne"]
+            },
+            "fontSize": {
+                    "label-caps": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                    "technical-sm": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body {
+            background-color: #fbfbe2;
+            color: #1b1d0e;
+        }
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-auto-rows: minmax(180px, auto);
+            gap: 24px;
+        }
+        @media (max-width: 1024px) {
+            .bento-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 640px) {
+            .bento-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #D2B48C;
+            border-radius: 10px;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body-md overflow-x-hidden">
+<!-- Navigation Drawer (Shared Component) -->
+<aside class="hidden md:flex flex-col h-screen fixed left-0 top-0 h-full w-64 border-r border-outline-variant bg-surface-container-low z-40">
+<div class="p-margin-edge">
+<h1 class="font-headline-lg text-headline-lg text-primary">Admin Terminal</h1>
+</div>
+<nav class="flex-1 mt-base">
+<a class="flex items-center gap-base bg-secondary-container text-on-secondary-container rounded-none border-l-4 border-secondary px-4 py-3 active:opacity-80 transition-all" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-technical-sm text-technical-sm">Dashboard</span>
+</a>
+<a class="flex items-center gap-base text-on-surface-variant px-4 py-3 hover:bg-surface-container-high active:opacity-80 transition-all" href="#">
+<span class="material-symbols-outlined">groups</span>
+<span class="font-technical-sm text-technical-sm">Staff List</span>
+</a>
+<a class="flex items-center gap-base text-on-surface-variant px-4 py-3 hover:bg-surface-container-high active:opacity-80 transition-all" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="font-technical-sm text-technical-sm">Schedules</span>
+</a>
+<a class="flex items-center gap-base text-on-surface-variant px-4 py-3 hover:bg-surface-container-high active:opacity-80 transition-all" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-technical-sm text-technical-sm">Settings</span>
+</a>
+</nav>
+<div class="p-margin-edge mt-auto border-t border-outline-variant">
+<div class="flex items-center gap-base">
+<div class="w-10 h-10 rounded-full bg-primary-container border border-outline flex items-center justify-center text-on-primary-container font-bold">A</div>
+<div>
+<p class="font-technical-sm text-technical-sm leading-none">Admin User</p>
+<p class="text-[10px] text-on-surface-variant">System Root</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="md:ml-64 min-h-screen pb-24 md:pb-base">
+<!-- Top App Bar (Shared Component) -->
+<header class="fixed top-0 md:left-64 right-0 z-30 bg-surface border-b border-outline-variant flex justify-between items-center px-margin-edge h-touch-target">
+<div class="flex items-center gap-base">
+<span class="material-symbols-outlined text-primary">location_on</span>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-primary">प्रशासक ड्यासबोर्ड</h2>
+</div>
+<div class="flex items-center gap-base bg-surface-container-high px-3 py-1 rounded border border-outline">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">schedule</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant" id="digital-clock">12:45:08</span>
+</div>
+</header>
+<!-- Content Area -->
+<div class="mt-20 px-margin-edge py-base">
+<!-- Statistics Bento Grid -->
+<section class="bento-grid">
+<!-- Total Staff Card -->
+<div class="bg-surface-container border border-outline p-6 flex flex-col justify-between group hover:border-primary transition-colors">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-primary text-3xl">groups</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant">कुल कर्मचारी</span>
+</div>
+<div>
+<h3 class="font-display-lg text-display-lg leading-none">४२</h3>
+<div class="w-full h-1 bg-outline-variant mt-4 relative overflow-hidden">
+<div class="absolute inset-0 bg-primary w-full"></div>
+</div>
+</div>
+</div>
+<!-- Present Card -->
+<div class="bg-surface-container border border-outline p-6 flex flex-col justify-between hover:border-secondary transition-colors">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-secondary text-3xl">how_to_reg</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant">उपस्थित</span>
+</div>
+<div>
+<h3 class="font-display-lg text-display-lg leading-none">३५</h3>
+<div class="w-full h-1 bg-outline-variant mt-4 relative overflow-hidden">
+<div class="absolute inset-0 bg-secondary w-[83%]"></div>
+</div>
+</div>
+</div>
+<!-- On Lunch Card -->
+<div class="bg-surface-container border border-outline p-6 flex flex-col justify-between hover:border-tertiary transition-colors">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-tertiary text-3xl">restaurant</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant">भोजन समय</span>
+</div>
+<div>
+<h3 class="font-display-lg text-display-lg leading-none">०४</h3>
+<div class="w-full h-1 bg-outline-variant mt-4 relative overflow-hidden">
+<div class="absolute inset-0 bg-tertiary w-[10%]"></div>
+</div>
+</div>
+</div>
+<!-- Late Card -->
+<div class="bg-surface-container border border-outline p-6 flex flex-col justify-between hover:border-error transition-colors">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-error text-3xl">running_with_errors</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant">ढिलो आएका</span>
+</div>
+<div>
+<h3 class="font-display-lg text-display-lg leading-none">०३</h3>
+<div class="w-full h-1 bg-outline-variant mt-4 relative overflow-hidden">
+<div class="absolute inset-0 bg-error w-[7%]"></div>
+</div>
+</div>
+</div>
+<!-- Live Activity List (Large Bento Item) -->
+<div class="col-span-full lg:col-span-3 bg-surface-container-low border border-outline flex flex-col h-[500px]">
+<div class="p-6 border-b border-outline-variant flex justify-between items-center bg-surface-container-high/50">
+<h4 class="font-headline-lg-mobile text-primary">प्रत्यक्ष गतिविधि</h4>
+<div class="flex gap-2">
+<button class="bg-surface border border-outline px-4 py-2 font-label-caps text-label-caps hover:bg-primary-container hover:text-on-primary-container transition-all">FILTER</button>
+<button class="bg-surface border border-outline px-4 py-2 font-label-caps text-label-caps hover:bg-primary-container hover:text-on-primary-container transition-all">EXPORT</button>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto custom-scrollbar p-0">
+<table class="w-full text-left border-collapse">
+<thead class="sticky top-0 bg-surface-container-low z-10 border-b border-outline-variant">
+<tr>
+<th class="p-4 font-label-caps text-[10px] text-on-surface-variant">कर्मचारी</th>
+<th class="p-4 font-label-caps text-[10px] text-on-surface-variant">समय</th>
+<th class="p-4 font-label-caps text-[10px] text-on-surface-variant">कार्य</th>
+<th class="p-4 font-label-caps text-[10px] text-on-surface-variant text-right">अवस्था</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/30">
+<tr class="hover:bg-surface-bright transition-colors group">
+<td class="p-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 border border-outline overflow-hidden">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all" data-alt="A professional headshot of a middle-aged South Asian male employee wearing a clean business casual shirt. He is standing against a neutral warm cream studio background with soft directional lighting. The aesthetic is professional and approachable, matching the warm industrial UI theme with earthy tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBD_e3JHwtAVnMc8rB_PscjdPt77tjkWkcT67qqfUtrCwOkNXTzomnX65U8AtEcTUZsL9h4XfX5cODnHPXZInBvsg-iGt7YiAx5qzzPPEPFqOSMFEsZFrwAQSEppnAt0GDblN4FxtCSndQBmP09rUDkwLQienwFRtJXPTn4CBMjlCJ83mL2xsrbsTnzKBc0h6FAARCRGKggTT2mbsnbN54_qev3oSb1d6Nw7DuauaxoaevKICWLPNKo8BDQaSaaqWoTvUchumdsOuuv"/>
+</div>
+<div>
+<p class="font-bold text-on-surface">रमेश थापा</p>
+<p class="text-xs text-on-surface-variant">IT विभाग</p>
+</div>
+</div>
+</td>
+<td class="p-4 font-technical-sm text-technical-sm">09:05 AM</td>
+<td class="p-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-sm">login</span>
+<span class="text-sm">चेक-इन</span>
+</div>
+</td>
+<td class="p-4 text-right">
+<span class="inline-block px-3 py-1 border border-secondary/20 bg-secondary/10 text-secondary text-[10px] font-label-caps">ON TIME</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-bright transition-colors group">
+<td class="p-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 border border-outline overflow-hidden">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all" data-alt="A portrait of a confident South Asian female professional in a modern office setting. She has a friendly expression and is looking directly at the camera. The background features warm industrial elements like exposed brick and soft cream-colored walls, lit by natural morning sunlight creating a professional and welcoming atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBXq3odTmyN6aMI2TXg32a8s-Mou86IU4SC7fABN1HsAHvQ7fueKTQ63RSdFwov1WpxgQzxvAJz2oVR_4sNpYlAFFrAFoJFbdBMvrr61uvAE-1OiySIAqIJ6Jj1N93GwpGeUFNz_qSHu2XVMhSUSRFbuTKrAm0tAnSXGLpIbun4HzW4thZyTt4JqdpQwxdTpOUFU5Px2k0U3dXon6XM8NM0NXitYjcrWseangs2pdN2D3V1xHAggt9hQIq3xrsoYDhHa301v6MVF_Zh"/>
+</div>
+<div>
+<p class="font-bold text-on-surface">सुनिता शर्मा</p>
+<p class="text-xs text-on-surface-variant">HR विभाग</p>
+</div>
+</div>
+</td>
+<td class="p-4 font-technical-sm text-technical-sm">09:12 AM</td>
+<td class="p-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-sm">login</span>
+<span class="text-sm">चेक-इन</span>
+</div>
+</td>
+<td class="p-4 text-right">
+<span class="inline-block px-3 py-1 border border-secondary/20 bg-secondary/10 text-secondary text-[10px] font-label-caps">ON TIME</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-bright transition-colors group">
+<td class="p-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 border border-outline overflow-hidden">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all" data-alt="A portrait of a male worker in a logistics uniform, captured in a warm industrial workspace environment. The lighting is crisp and detailed, emphasizing texture and a sense of reliability. The color palette consists of soft creams and deep terracotta accents, maintaining a professional yet human-centric aesthetic consistent with the brand's identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBvH0OupL_6LejfCnREbDOsjEOVVzKDIyWnAvXRLjCTXk7fU4u1eYxuTpX72iWW4PrttpVBST0fBHncmh4KDtBu84IbRiScYhxMgty1TYzfBd8J5wdQkUTkF6P0C7WmsthmfcVaV48VKbLEphYBwBhVAi7G00t9rCBnn5wPpOxoQPrNec6eqX-7zvvqMtppAEeEVaDPRd1Ob2_2LbLi3OI5YNnEBqHRTwvjIrUNYc4JGg6u58UuTsCv1gQfOrJWQ-8te0PPHpJVdvW1"/>
+</div>
+<div>
+<p class="font-bold text-on-surface">दिनेश के.सी.</p>
+<p class="text-xs text-on-surface-variant">लॉजिस्टिक्स</p>
+</div>
+</div>
+</td>
+<td class="p-4 font-technical-sm text-technical-sm">09:45 AM</td>
+<td class="p-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-error text-sm">login</span>
+<span class="text-sm">चेक-इन</span>
+</div>
+</td>
+<td class="p-4 text-right">
+<span class="inline-block px-3 py-1 border border-error/20 bg-error/10 text-error text-[10px] font-label-caps">LATE</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-bright transition-colors group">
+<td class="p-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 border border-outline overflow-hidden">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all" data-alt="A high-quality professional portrait of a young female office employee. She is centered in the frame, wearing a terracotta-colored blouse that matches the UI accents. The background is a soft-focus warm cream wall. The lighting is diffused and professional, creating an environment that feels both professional and approachable." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8n3nNp1qSz3z30Mt9XgbbULCE7BAhjGCNlaZi-pfcFfn2KOnl1E9fuWNxZmv1O8v_eTC16mMjfldeMF8VQz0aHg0460b52G3Qx08_pth9TXEfxPThSwrRZ0wt-EyT-pL1hu-XxEhfVC0koLJn3wdHfII5Rt5oinbV1fJZh5rYkX-yhrC3ueRFdjHk_P3iisNgiKO6VQFfhU2HULQyqCd3qKYFKUPytw_EwvROpAEvLFuf_h80x1imkSKhAnbZUFyhRvp6INmcVm-g"/>
+</div>
+<div>
+<p class="font-bold text-on-surface">अन्जली महर्जन</p>
+<p class="text-xs text-on-surface-variant">प्रशासन</p>
+</div>
+</div>
+</td>
+<td class="p-4 font-technical-sm text-technical-sm">12:30 PM</td>
+<td class="p-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary text-sm">restaurant</span>
+<span class="text-sm">भोजन विदा</span>
+</div>
+</td>
+<td class="p-4 text-right">
+<span class="inline-block px-3 py-1 border border-tertiary/20 bg-tertiary/10 text-tertiary text-[10px] font-label-caps">LUNCH</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-4 border-t border-outline-variant bg-surface-container flex justify-center">
+<button class="text-primary font-label-caps text-label-caps hover:underline">सबै गतिविधि हेर्नुहोस्</button>
+</div>
+</div>
+<!-- Quick Actions / Sidebar Bento Item -->
+<div class="col-span-full lg:col-span-1 flex flex-col gap-6">
+<!-- Notification Card -->
+<div class="bg-primary-container p-6 border border-outline text-on-primary-container relative overflow-hidden group">
+<span class="material-symbols-outlined absolute -right-4 -bottom-4 text-8xl opacity-10 rotate-12 group-hover:scale-110 transition-transform">campaign</span>
+<p class="font-label-caps text-[10px] mb-2 border-b border-on-primary-container/20 pb-2">महत्त्वपूर्ण सूचना</p>
+<h5 class="font-bold text-lg mb-4">नयाँ कार्य तालिका अद्यावधिक गरिएको छ।</h5>
+<button class="w-full py-2 bg-on-primary-container text-primary-container font-label-caps text-label-caps active:scale-95 transition-all">विस्तृत विवरण</button>
+</div>
+<!-- System Health Card -->
+<div class="bg-surface-container border border-outline p-6 flex-1">
+<p class="font-label-caps text-[10px] text-on-surface-variant mb-6 uppercase tracking-widest">प्रणालीको अवस्था</p>
+<div class="space-y-6">
+<div class="flex justify-between items-end">
+<div>
+<p class="text-xs text-on-surface-variant mb-1">कियोस्क सर्भर</p>
+<p class="font-bold">सक्रिय</p>
+</div>
+<div class="flex gap-1 h-8 items-end">
+<div class="w-1 bg-secondary h-4"></div>
+<div class="w-1 bg-secondary h-6"></div>
+<div class="w-1 bg-secondary h-5"></div>
+<div class="w-1 bg-secondary h-7"></div>
+<div class="w-1 bg-secondary h-8"></div>
+</div>
+</div>
+<div class="flex justify-between items-end">
+<div>
+<p class="text-xs text-on-surface-variant mb-1">बायोमेट्रिक स्क्यानर</p>
+<p class="font-bold">तयार</p>
+</div>
+<div class="flex gap-1 h-8 items-end">
+<div class="w-1 bg-secondary h-6"></div>
+<div class="w-1 bg-secondary h-8"></div>
+<div class="w-1 bg-secondary h-7"></div>
+<div class="w-1 bg-secondary h-5"></div>
+<div class="w-1 bg-secondary h-6"></div>
+</div>
+</div>
+</div>
+<div class="mt-8 pt-6 border-t border-outline-variant flex items-center justify-between">
+<span class="text-xs">अन्तिम सिङ्क: ३ मिनेट अघि</span>
+<span class="material-symbols-outlined text-primary text-sm animate-spin">sync</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Bottom Nav Bar (Shared Component - Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-20 px-4 bg-surface-container border-t border-outline-variant">
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-lg px-4 py-1 active:scale-95 duration-200" href="#">
+<span class="material-symbols-outlined">fingerprint</span>
+<span class="font-label-caps text-[10px] mt-1">Check In</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:scale-95 duration-200" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="font-label-caps text-[10px] mt-1">History</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:scale-95 duration-200" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-caps text-[10px] mt-1">Profile</span>
+</a>
+</nav>
+</main>
+<script>
+        // Digital Clock Logic
+        function updateClock() {
+            const now = new Date();
+            const timeStr = now.getHours().toString().padStart(2, '0') + ':' +
+                            now.getMinutes().toString().padStart(2, '0') + ':' +
+                            now.getSeconds().toString().padStart(2, '0');
+            document.getElementById('digital-clock').textContent = timeStr;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // Subtle parallax effect on stats cards
+        document.querySelectorAll('.bg-surface-container').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+    </script>
+</body></html>

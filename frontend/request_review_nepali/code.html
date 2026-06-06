@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+
+<html lang="ne"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>StaffTrack - अनुरोध समीक्षा</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&amp;family=DM+Sans:wght@400;500;700&amp;family=JetBrains+Mono:wght@500;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@100..900&amp;family=JetBrains+Mono:wght@100..900&amp;family=Syne:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-fixed-dim": "#ffb4a5",
+                    "surface-container": "#efefd7",
+                    "on-surface": "#4A3728",
+                    "on-surface-variant": "#7A6A53",
+                    "secondary-fixed-dim": "#bdce89",
+                    "tertiary": "#904d00",
+                    "inverse-primary": "#ffb4a5",
+                    "on-background": "#1b1d0e",
+                    "outline-variant": "#ddc0ba",
+                    "on-primary-fixed-variant": "#802918",
+                    "tertiary-container": "#dd7900",
+                    "on-secondary": "#ffffff",
+                    "error": "#D9534F",
+                    "surface-dim": "#dbdcc3",
+                    "on-secondary-fixed-variant": "#3e4c16",
+                    "outline": "#D2B48C",
+                    "primary-fixed": "#ffdad3",
+                    "secondary-container": "#d6e7a1",
+                    "primary": "#9f402d",
+                    "surface": "#FFFDF5",
+                    "surface-container-highest": "#e4e4cc",
+                    "surface-container-high": "#eaead1",
+                    "on-tertiary-fixed": "#2f1500",
+                    "surface-container-low": "#f5f5dc",
+                    "on-tertiary-container": "#462200",
+                    "on-error-container": "#93000a",
+                    "on-tertiary": "#ffffff",
+                    "surface-bright": "#fbfbe2",
+                    "on-tertiary-fixed-variant": "#6e3900",
+                    "inverse-surface": "#303221",
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary-fixed": "#161f00",
+                    "inverse-on-surface": "#f2f2d9",
+                    "on-primary-fixed": "#3e0500",
+                    "on-primary": "#ffffff",
+                    "tertiary-fixed": "#ffdcc3",
+                    "on-primary-container": "#5a0d02",
+                    "surface-variant": "#e4e4cc",
+                    "surface-tint": "#9f402d",
+                    "secondary": "#56642b",
+                    "on-error": "#ffffff",
+                    "secondary-fixed": "#d9eaa3",
+                    "tertiary-fixed-dim": "#ffb77d",
+                    "primary-container": "#e2725b",
+                    "background": "#fbfbe2",
+                    "error-container": "#ffdad6",
+                    "on-secondary-container": "#5a682f"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-edge": "32px",
+                    "kiosk-gap": "24px",
+                    "admin-gutter": "16px",
+                    "base": "8px",
+                    "touch-target": "48px"
+            },
+            "fontFamily": {
+                    "headline-lg-mobile": ["Syne"],
+                    "headline-lg": ["Syne"],
+                    "display-lg": ["Syne"],
+                    "label-caps": ["JetBrains Mono"],
+                    "body-md": ["DM Sans"],
+                    "technical-sm": ["JetBrains Mono"]
+            },
+            "fontSize": {
+                    "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "label-caps": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "technical-sm": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #fbfbe2; /* background from theme */
+            color: #4A3728; /* on-surface */
+        }
+        .industrial-border {
+            border: 1px solid #D2B48C; /* outline from theme */
+        }
+        .action-shadow:hover {
+            box-shadow: 4px 4px 0px 0px #D2B48C;
+            transform: translate(-2px, -2px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body-md text-body-md antialiased">
+<!-- Top AppBar (JSON Derived) -->
+<header class="fixed top-0 w-full bg-surface border-b border-outline flex justify-between items-center px-margin-edge h-touch-target z-50">
+<div class="flex items-center gap-base">
+<button class="material-symbols-outlined text-primary active:scale-95 duration-100" onclick="window.history.back()">arrow_back</button>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-primary">अनुरोध समीक्षा</h1>
+</div>
+<div class="flex items-center gap-base">
+<span class="font-label-caps text-label-caps text-on-surface-variant hidden md:block">MANAGER PORTAL</span>
+<span class="material-symbols-outlined text-primary">schedule</span>
+</div>
+</header>
+<main class="pt-[80px] pb-[120px] px-margin-edge max-w-4xl mx-auto">
+<!-- Profile Header Section -->
+<section class="mb-base bg-surface-container-low industrial-border p-admin-gutter flex flex-col md:flex-row items-center gap-kiosk-gap">
+<div class="relative">
+<img alt="Staff Profile" class="w-32 h-32 md:w-40 md:h-40 object-cover industrial-border" data-alt="A professional headshot of a South Asian male worker in a modern industrial setting. The lighting is warm and natural, following a cream and terracotta color palette. He wears a clean, professional uniform against a soft-focus architectural background of a high-tech warehouse or office." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAN1qttM8g3owFQoDXl6QqhfxnwCUkPAl506c6CEMCmpUaFzPeFzFqGXNozuBNvZhRdteAJYox40rvZxP-ODM-dk8flDvusxAtoWLU5BBsmPcWRulryy8qG0ZnNA7rxXP3lnlhILnuoJWwmZhEaCEOY3RDyHi92qI-jBF8ZsV0ta_WNla9bb-QDH5Cj7i4sBuOUuqPzgRODrjFtC4nVTotvDns5F7kMyklEFRyZKoSlGM9BBmzcSWmGHAiMOQ2A2B2UbZT7QOV8l4IR"/>
+<div class="absolute -bottom-2 -right-2 bg-primary text-on-primary px-3 py-1 font-technical-sm text-technical-sm industrial-border">
+                    ID: 4492
+                </div>
+</div>
+<div class="text-center md:text-left flex-1">
+<h2 class="font-headline-lg text-headline-lg text-on-surface">रमेश थापा</h2>
+<p class="text-on-surface-variant font-medium">वरिष्ठ प्राविधिक (Senior Technician)</p>
+<div class="mt-base flex flex-wrap justify-center md:justify-start gap-2">
+<span class="bg-secondary-container text-on-secondary-container px-3 py-1 font-label-caps text-label-caps border border-outline">पूर्ण-समय</span>
+<span class="bg-surface-container-highest text-on-surface-variant px-3 py-1 font-label-caps text-label-caps border border-outline">विभाग: मर्मत</span>
+</div>
+</div>
+</section>
+<!-- Leave Details Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-base mb-base">
+<!-- Request Info -->
+<div class="industrial-border bg-surface p-admin-gutter space-y-4">
+<div>
+<label class="font-label-caps text-label-caps text-on-surface-variant block mb-1">बिदाको प्रकार (Leave Type)</label>
+<div class="flex items-center gap-2 text-primary font-bold">
+<span class="material-symbols-outlined">medical_services</span>
+<span class="font-headline-lg-mobile text-headline-lg-mobile">बिरामी बिदा (Sick Leave)</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4 pt-2 border-t border-outline-variant">
+<div>
+<label class="font-label-caps text-label-caps text-on-surface-variant block mb-1">सुरु मिति (Start)</label>
+<p class="font-technical-sm text-technical-sm text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">calendar_today</span>
+                            २०८० चैत १०
+                        </p>
+</div>
+<div>
+<label class="font-label-caps text-label-caps text-on-surface-variant block mb-1">अन्तिम मिति (End)</label>
+<p class="font-technical-sm text-technical-sm text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">event_available</span>
+                            २०८० चैत १२
+                        </p>
+</div>
+</div>
+<div class="pt-2 border-t border-outline-variant">
+<label class="font-label-caps text-label-caps text-on-surface-variant block mb-1">जम्मा दिन (Total Duration)</label>
+<p class="text-on-surface font-bold">३ दिन</p>
+</div>
+</div>
+<!-- Notes/Reason -->
+<div class="industrial-border bg-surface p-admin-gutter">
+<label class="font-label-caps text-label-caps text-on-surface-variant block mb-2">कारण / टिप्पणी (Reason / Notes)</label>
+<div class="bg-surface-container-lowest p-base industrial-border min-h-[120px] text-on-surface">
+                    "उच्च ज्वरो र टाउको दुख्ने समस्या भएकाले डाक्टरले ३ दिन पूर्ण आराम गर्न सल्लाह दिनुभएको छ। मेडिकल रिपोर्ट संलग्न गरिएको छ।"
+                </div>
+</div>
+</div>
+<!-- Attachments Section -->
+<section class="industrial-border bg-surface p-admin-gutter mb-base">
+<div class="flex justify-between items-center mb-4">
+<h3 class="font-label-caps text-label-caps text-on-surface">संलग्न कागजातहरू (Attachments)</h3>
+<span class="text-technical-sm text-on-surface-variant">१ फाइल</span>
+</div>
+<div class="flex gap-4">
+<div class="group relative cursor-pointer active:scale-95 transition-all">
+<div class="w-32 h-40 bg-surface-container-high industrial-border overflow-hidden flex flex-col items-center justify-center">
+<img alt="Medical Certificate" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" data-alt="A macro photograph of a medical certificate lying on a clean industrial desk. The document has official stamps and signatures, partially blurred for privacy. The lighting is bright and professional, maintaining the warm terracotta and cream aesthetic of the administrative staff portal." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCGcxqpO4aFVsKCkdBqLfow5EHPTql0gAbb32qdqTDSYD4Aqo2JciJJyrAcvs-2lwUIbwMCeb80VM0H1ntLKFKWQawPjN-hD00GnMM3xeloRN3_WgF416tnAer2I0TpH8c4M8kKg50oJnlGPXO4nY1UAaym3M2b4lRO6KAV2OyVFCdqp6ToztvStsPhcxmpVpWsy9Z2A5pKq0EIvrki6a_aSQyYP6IlleT_zCecP_XXUtyp3KfOtmHnCnTQwyAD8KTOq9Yi3Garq_AC"/>
+<div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 bg-primary/20 transition-opacity">
+<span class="material-symbols-outlined text-on-primary bg-primary p-2 rounded-full">visibility</span>
+</div>
+</div>
+<p class="text-[10px] font-technical-sm mt-1 text-center truncate w-32">Medical_Report.jpg</p>
+</div>
+</div>
+</section>
+<!-- Policy Compliance Hint -->
+<div class="flex items-start gap-3 p-admin-gutter bg-surface-container-high border-l-4 border-primary">
+<span class="material-symbols-outlined text-primary">info</span>
+<div>
+<p class="font-bold text-on-surface text-sm">नीति जानकारी (Policy Check)</p>
+<p class="text-xs text-on-surface-variant">यस कर्मचारीसँग अझै १० दिन बिरामी बिदा बाँकी छ। यस महिनामा यो पहिलो अनुरोध हो।</p>
+</div>
+</div>
+</main>
+<!-- Footer Action Bar (Contextual Overrides JSON BottomNav for Task Focus) -->
+<footer class="fixed bottom-0 w-full bg-surface border-t border-outline p-margin-edge z-50">
+<div class="max-w-4xl mx-auto flex flex-col sm:flex-row gap-base">
+<!-- Reject Button (Secondary Outline) -->
+<button class="flex-1 h-touch-target industrial-border bg-surface text-primary font-label-caps text-label-caps flex items-center justify-center gap-2 hover:bg-surface-container-high active:scale-95 transition-all">
+<span class="material-symbols-outlined">cancel</span>
+                अस्वीकार गर्नुहोस्
+            </button>
+<!-- Approve Button (Primary Solid) -->
+<button class="flex-1 h-touch-target bg-primary text-on-primary font-label-caps text-label-caps flex items-center justify-center gap-2 hover:opacity-90 active:scale-95 transition-all shadow-md">
+<span class="material-symbols-outlined">check_circle</span>
+                स्वीकार गर्नुहोस्
+            </button>
+</div>
+</footer>
+<!-- Micro-interaction Script -->
+<script>
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                // Subtle ripple effect or toast simulation
+                const ripple = document.createElement('div');
+                ripple.classList.add('absolute', 'inset-0', 'bg-white/20', 'animate-ping', 'rounded-lg');
+                this.style.position = 'relative';
+                this.appendChild(ripple);
+                setTimeout(() => ripple.remove(), 400);
+            });
+        });
+    </script>
+</body></html>

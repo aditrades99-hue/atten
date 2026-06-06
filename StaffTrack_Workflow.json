@@ -1,0 +1,401 @@
+{
+  "app": "StaffTrack",
+  "version": "1.0",
+  "description": "Face-verified staff attendance system with WhatsApp notifications",
+
+  "actors": {
+    "staff": "Shop employee using the kiosk laptop",
+    "admin": "Shop owner/manager on their phone or device",
+    "system": "Backend server + Supabase + face-api.js",
+    "whatsapp": "WhatsApp delivery via CallMeBot API"
+  },
+
+  "ui_simplicity_rules": {
+    "kiosk": [
+      "Only show the action the staff NEEDS right now — no extra buttons",
+      "Large text, large buttons — readable from standing distance",
+      "Staff never types anything — only tap + look at camera",
+      "Max 2 screens: Grid → Camera → Done (auto returns)"
+    ],
+    "admin": [
+      "Mobile-first single-column layout",
+      "Dashboard is one scrollable page — no tabs within tabs",
+      "Color = meaning: green=present, yellow=lunch, red=absent, gray=departed",
+      "Every notification is one tap to resolve"
+    ]
+  },
+
+  "sessions": {
+    "kiosk_session": {
+      "type": "persistent_shared",
+      "login": "One-time setup by admin — never logs out",
+      "access": "Public (any staff can tap — verification is the identity check)",
+      "url": "/kiosk"
+    },
+    "admin_session": {
+      "type": "private_auth",
+      "login": "Email + Password",
+      "access": "Admin only",
+      "url": "/admin"
+    }
+  },
+
+  "staff_daily_states": {
+    "order": ["absent", "present_morning", "on_lunch", "present_afternoon", "departed"],
+    "absent":            { "badge": "⚫ Absent",      "color": "#6B7280", "next_action": "Mark Arrived" },
+    "present_morning":   { "badge": "🟢 Present",     "color": "#22C55E", "next_action": "Going for Lunch" },
+    "on_lunch":          { "badge": "🟡 Lunch",        "color": "#F59E0B", "next_action": "Back from Lunch" },
+    "present_afternoon": { "badge": "🟢 Present",     "color": "#22C55E", "next_action": "Mark Departed" },
+    "departed":          { "badge": "⬛ Departed",    "color": "#94A3B8", "next_action": null }
+  },
+
+  "workflows": {
+
+    "W1_morning_arrival": {
+      "title": "Staff Morning Arrival",
+      "trigger": "Staff taps [Mark Arrived] on their card",
+      "actor": "staff",
+      "steps": [
+        { "step": 1, "who": "staff",   "action": "Opens kiosk page on laptop" },
+        { "step": 2, "who": "staff",   "action": "Finds their name card (status: Absent)" },
+        { "step": 3, "who": "staff",   "action": "Taps [Mark Arrived] button" },
+        { "step": 4, "who": "system",  "action": "Opens camera modal with countdown 3-2-1" },
+        { "step": 5, "who": "system",  "action": "Captures face from webcam stream" },
+        { "step": 6, "who": "system",  "action": "Runs face-api.js: extract descriptor from live feed" },
+        { "step": 7, "who": "system",  "action": "Compares with stored descriptor from DB" },
+        {
+          "step": 8, "who": "system", "action": "Decision: face match?",
+          "branches": {
+            "yes_match": [
+              { "step": "8a", "who": "system",   "action": "Write attendance record: morning_arrival = NOW()" },
+              { "step": "8b", "who": "system",   "action": "Update staff status to present_morning" },
+              { "step": "8c", "who": "system",   "action": "Insert notification row in DB" },
+              { "step": "8d", "who": "system",   "action": "Trigger Supabase Realtime event" },
+              { "step": "8e", "who": "system",   "action": "Call CallMeBot API: send WhatsApp to admin" },
+              { "step": "8f", "who": "kiosk_ui", "action": "Show success screen: ✅ Welcome Ravi! 09:02 AM" },
+              { "step": "8g", "who": "admin_ui", "action": "Toast notification pops up: Ravi arrived at 09:02 AM" },
+              { "step": "8h", "who": "whatsapp", "action": "Admin receives: ✅ Ravi arrived at 09:02 AM" },
+              { "step": "8i", "who": "kiosk_ui", "action": "Auto-returns to grid after 4 seconds" }
+            ],
+            "no_match": [
+              { "step": "8a", "who": "system",   "action": "Capture snapshot from webcam" },
+              { "step": "8b", "who": "system",   "action": "Upload snapshot to Supabase Storage" },
+              { "step": "8c", "who": "system",   "action": "Log attendance_event: verification_failed" },
+              { "step": "8d", "who": "system",   "action": "Call CallMeBot: send WhatsApp with photo URL" },
+              { "step": "8e", "who": "kiosk_ui", "action": "Show error screen: ❌ Face not recognized" },
+              { "step": "8f", "who": "admin_ui", "action": "Toast notification: ⚠️ Verification failed for Ravi" },
+              { "step": "8g", "who": "whatsapp", "action": "Admin receives: ⚠️ Verification FAILED for Ravi. [photo link]" }
+            ]
+          }
+        }
+      ],
+      "whatsapp_message": "✅ *{name}* arrived at *{time}*",
+      "db_write": { "table": "attendance", "field": "morning_arrival", "value": "NOW()" }
+    },
+
+    "W2_lunch_departure": {
+      "title": "Staff Going for Lunch",
+      "trigger": "Staff taps [Going for Lunch]",
+      "steps": [
+        { "step": 1, "who": "staff",  "action": "Taps [Going for Lunch] on their card" },
+        { "step": 2, "who": "system", "action": "Opens camera → face scan → match check" },
+        {
+          "step": 3, "who": "system", "action": "Decision: match?",
+          "branches": {
+            "yes_match": [
+              { "step": "3a", "action": "Write: lunch_departure = NOW()" },
+              { "step": "3b", "action": "Set status: on_lunch" },
+              { "step": "3c", "action": "Notify admin: WhatsApp + in-app" },
+              { "step": "3d", "action": "Show: 🍱 Have a great lunch, Ravi!" }
+            ],
+            "no_match": "same_as_W1_failure_flow"
+          }
+        }
+      ],
+      "whatsapp_message": "🍱 *{name}* left for lunch at *{time}*"
+    },
+
+    "W3_lunch_return": {
+      "title": "Staff Back from Lunch",
+      "trigger": "Staff taps [Back from Lunch]",
+      "steps": [
+        { "step": 1, "who": "staff",  "action": "Taps [Back from Lunch] on their card" },
+        { "step": 2, "who": "system", "action": "Opens camera → face scan → match check" },
+        {
+          "step": 3, "who": "system", "action": "Decision: match?",
+          "branches": {
+            "yes_match": [
+              { "step": "3a", "action": "Write: lunch_return = NOW()" },
+              { "step": "3b", "action": "Set status: present_afternoon" },
+              { "step": "3c", "action": "Calculate lunch duration (lunch_return - lunch_departure)" },
+              { "step": "3d", "action": "Notify admin: WhatsApp + in-app" },
+              { "step": "3e", "action": "Show: 🔙 Welcome back, Ravi!" }
+            ],
+            "no_match": "same_as_W1_failure_flow"
+          }
+        }
+      ],
+      "whatsapp_message": "🔙 *{name}* returned from lunch at *{time}*"
+    },
+
+    "W4_evening_departure": {
+      "title": "Staff Departing for the Day",
+      "trigger": "Staff taps [Mark Departed]",
+      "steps": [
+        { "step": 1, "who": "staff",  "action": "Taps [Mark Departed] on their card" },
+        { "step": 2, "who": "system", "action": "Opens camera → face scan → match check" },
+        {
+          "step": 3, "who": "system", "action": "Decision: match?",
+          "branches": {
+            "yes_match": [
+              { "step": "3a", "action": "Write: evening_departure = NOW()" },
+              { "step": "3b", "action": "Set status: departed" },
+              { "step": "3c", "action": "Calculate total_hours: (morning_hours) + (afternoon_hours)" },
+              { "step": "3d", "action": "Notify admin: WhatsApp + in-app" },
+              { "step": "3e", "action": "Show: 🏠 Goodbye Ravi! Total: 7.5 hrs" }
+            ],
+            "no_match": "same_as_W1_failure_flow"
+          }
+        }
+      ],
+      "whatsapp_message": "🏠 *{name}* departed at *{time}* | Total: *{hours} hrs*"
+    },
+
+    "W5_absence_report": {
+      "title": "Staff Reports a Colleague as Missing",
+      "trigger": "Staff taps [Report Absence] button on kiosk",
+      "steps": [
+        { "step": 1, "who": "staff",  "action": "Taps [Report Absence] (bottom of kiosk page)" },
+        { "step": 2, "who": "kiosk",  "action": "Shows simple form: Who is missing? + Report type" },
+        { "step": 3, "who": "staff",  "action": "Selects: missing staff name + type (morning/lunch)" },
+        { "step": 4, "who": "staff",  "action": "Adds optional note + taps [Send Report]" },
+        { "step": 5, "who": "system", "action": "Writes to absence_reports table" },
+        { "step": 6, "who": "system", "action": "Sends WhatsApp to admin" },
+        { "step": 7, "who": "system", "action": "Fires realtime notification to admin dashboard" },
+        { "step": 8, "who": "kiosk",  "action": "Shows: ✅ Report sent to admin" },
+        { "step": 9, "who": "admin",  "action": "Sees pop-up + can respond from dashboard" }
+      ],
+      "whatsapp_message": "🚨 Absence Report: *{absent_name}* has not {arrived/returned}. Reported by *{reporter}* at *{time}*"
+    },
+
+    "W6_admin_dashboard": {
+      "title": "Admin Monitoring Flow",
+      "trigger": "Admin opens /admin on phone",
+      "steps": [
+        { "step": 1, "who": "admin",  "action": "Opens admin URL on phone" },
+        { "step": 2, "who": "system", "action": "Auth check: login if not authenticated" },
+        { "step": 3, "who": "admin",  "action": "Sees dashboard: stat cards + live staff grid" },
+        { "step": 4, "who": "system", "action": "Supabase Realtime WebSocket open — listening for events" },
+        { "step": 5, "who": "system", "action": "Any staff action fires → realtime event received" },
+        { "step": 6, "who": "admin",  "action": "Toast notification appears + bell count increments" },
+        { "step": 7, "who": "admin",  "action": "Can tap notification → see full detail" },
+        { "step": 8, "who": "admin",  "action": "Can tap any staff card → see that staff's full day timeline" }
+      ]
+    },
+
+    "W7_face_registration": {
+      "title": "Admin Registers New Staff Face",
+      "trigger": "Admin adds new staff in /admin/staff/add",
+      "steps": [
+        { "step": 1, "who": "admin",  "action": "Goes to Staff → Add New Staff" },
+        { "step": 2, "who": "admin",  "action": "Fills: Name, Role, Phone" },
+        { "step": 3, "who": "admin",  "action": "Either uploads 1–5 photos OR uses live webcam to take photo" },
+        { "step": 4, "who": "system", "action": "Runs face-api.js on each photo → extracts descriptor vector" },
+        { "step": 5, "who": "system", "action": "Averages all descriptors into one stored vector" },
+        { "step": 6, "who": "system", "action": "Saves staff record + face_descriptor to DB" },
+        { "step": 7, "who": "system", "action": "Staff card appears on kiosk immediately" }
+      ],
+      "tip": "More photos (different angles, lighting) = higher verification accuracy"
+    },
+
+    "W8_end_of_day_auto": {
+      "title": "Automated End-of-Day Job",
+      "trigger": "Cron job at 7:00 PM daily",
+      "steps": [
+        { "step": 1, "who": "system", "action": "Query all staff with status != departed for today" },
+        { "step": 2, "who": "system", "action": "Mark remaining present/on_lunch staff as departed (auto)" },
+        { "step": 3, "who": "system", "action": "Mark any still-absent staff as absent for the day" },
+        { "step": 4, "who": "system", "action": "Calculate totals for all staff" },
+        { "step": 5, "who": "system", "action": "Build daily summary message" },
+        { "step": 6, "who": "whatsapp", "action": "Send summary WhatsApp to admin" }
+      ],
+      "whatsapp_message": "📊 Daily Summary — {date}\nPresent: {names} ({count})\nAbsent: {names} ({count})\nLate: {names}\nAvg hours: {avg}hrs"
+    }
+  },
+
+  "ui_screens": {
+
+    "kiosk_home": {
+      "route": "/kiosk",
+      "elements": [
+        "Header: Shop name + live clock (HH:MM AM/PM) + today's date",
+        "Staff grid (2 columns on tablet, 3 on desktop)",
+        "Each card: photo circle, name, status badge, ONE action button",
+        "Footer: [Report Absence] button (subtle, not prominent)",
+        "No login, no menu, no navigation"
+      ],
+      "simplicity_note": "Staff should be able to use this in 5 seconds without instructions"
+    },
+
+    "kiosk_verify": {
+      "route": "/kiosk/verify/:staffId",
+      "elements": [
+        "Large text: 'Hello Ravi, look at the camera'",
+        "Camera feed inside animated circle ring",
+        "Status text: Detecting... / Matching... / Verified!",
+        "No buttons — fully automatic after tap"
+      ]
+    },
+
+    "kiosk_success": {
+      "elements": [
+        "Big green checkmark (animated pop)",
+        "Name + action text: 'Ravi — Marked Arrived'",
+        "Time: 09:02 AM",
+        "Auto-dismiss in 4 seconds"
+      ]
+    },
+
+    "kiosk_failed": {
+      "elements": [
+        "Red X with shake animation",
+        "Text: 'Face not recognized'",
+        "Subtext: 'Admin has been notified'",
+        "Auto-dismiss in 5 seconds"
+      ]
+    },
+
+    "kiosk_absence_report": {
+      "elements": [
+        "Dropdown: Who is missing? (only shows absent/unaccounted staff)",
+        "Radio: Morning no-show / Hasn't returned from lunch",
+        "Text area: Notes (optional)",
+        "[Send Report] button",
+        "[Cancel] back to grid"
+      ]
+    },
+
+    "admin_dashboard": {
+      "route": "/admin/dashboard",
+      "elements": [
+        "Top: 4 stat chips — Present | Absent | On Lunch | Departed",
+        "Staff status grid (same visual as kiosk but read-only + tappable)",
+        "Recent events feed (last 10 events, live updating)",
+        "Unresolved absence reports alert banner (if any)",
+        "Bell icon with unread count in header"
+      ]
+    },
+
+    "admin_attendance_table": {
+      "route": "/admin/attendance",
+      "elements": [
+        "Date picker (default: today)",
+        "Staff filter dropdown",
+        "Table: Name | Arrived | Lunch Out | Back | Departed | Hours | Status",
+        "Row color coding by status",
+        "[Export CSV] button"
+      ]
+    },
+
+    "admin_staff_management": {
+      "route": "/admin/staff",
+      "elements": [
+        "Staff list with photo + name + role + status dot",
+        "[+ Add Staff] button",
+        "Tap any staff → edit form",
+        "Edit form: name/role/phone fields + photo upload + [Re-register Face] button"
+      ]
+    },
+
+    "admin_absence_reports": {
+      "route": "/admin/absence-reports",
+      "elements": [
+        "List of open reports (newest first)",
+        "Each card: who's missing, reported by, time, type",
+        "Tap → expand with notes + [Mark Resolved] + admin response field",
+        "Resolved reports collapsed at bottom"
+      ]
+    },
+
+    "admin_settings": {
+      "route": "/admin/settings",
+      "elements": [
+        "Shop Name input",
+        "WhatsApp Number input",
+        "CallMeBot API Key input (masked)",
+        "Work Start / Lunch Window / Work End time pickers",
+        "Late threshold (minutes) number input",
+        "Face match threshold slider (0.3–0.7)",
+        "[Save Settings] button"
+      ]
+    }
+  },
+
+  "notifications": {
+    "channels": ["in_app_popup", "whatsapp"],
+    "events": {
+      "arrived":             { "icon": "✅", "color": "green",  "whatsapp": true, "popup": true },
+      "lunch_out":           { "icon": "🍱", "color": "amber",  "whatsapp": true, "popup": true },
+      "lunch_return":        { "icon": "🔙", "color": "blue",   "whatsapp": true, "popup": true },
+      "departed":            { "icon": "🏠", "color": "slate",  "whatsapp": true, "popup": true },
+      "verification_failed": { "icon": "⚠️", "color": "red",    "whatsapp": true, "popup": true, "includes_photo": true },
+      "late_arrival":        { "icon": "⏰", "color": "orange", "whatsapp": true, "popup": true },
+      "absence_report":      { "icon": "🚨", "color": "red",    "whatsapp": true, "popup": true },
+      "daily_summary":       { "icon": "📊", "color": "gray",   "whatsapp": true, "popup": false }
+    }
+  },
+
+  "face_verification_logic": {
+    "library": "face-api.js (TensorFlow.js)",
+    "models_needed": ["ssdMobilenetv1", "faceLandmark68Net", "faceRecognitionNet"],
+    "models_path": "/public/models/",
+    "flow": [
+      "Load models once on kiosk page init (cached after first load)",
+      "Also load all staff face_descriptors from DB on init",
+      "On verify: detect face in video stream",
+      "Extract 128-dimension descriptor from detected face",
+      "Use FaceMatcher to compare with all stored descriptors",
+      "Best match distance < threshold → SUCCESS",
+      "Best match distance >= threshold → FAIL"
+    ],
+    "threshold": 0.5,
+    "threshold_note": "Lower = stricter. 0.4 is very strict, 0.6 is lenient. Default 0.5 works well.",
+    "capture_on_fail": "canvas.toDataURL() → base64 → upload to Supabase Storage"
+  },
+
+  "whatsapp_setup": {
+    "provider": "CallMeBot (free)",
+    "setup_steps": [
+      "1. Save +34 644 597 902 in contacts as 'CallMeBot'",
+      "2. Send WhatsApp message: 'I allow callmebot to send me messages'",
+      "3. Receive API key in reply",
+      "4. Add to .env: CALLMEBOT_API_KEY=your_key and WHATSAPP_ADMIN_NUMBER=+977XXXXXXXXXX"
+    ],
+    "api_call": "GET https://api.callmebot.com/whatsapp.php?phone={number}&text={message}&apikey={key}",
+    "called_from": "backend only (Node.js) — never from frontend"
+  },
+
+  "database_tables_summary": {
+    "staff":              "Staff profiles + stored face descriptor vector",
+    "attendance":         "One row per staff per day — all 4 timestamps + computed hours",
+    "attendance_events":  "Immutable log of every single action + photo URL",
+    "absence_reports":    "Reports filed by staff about missing colleagues",
+    "notifications":      "All notifications with read/unread state",
+    "settings":           "Key-value store for admin config"
+  },
+
+  "claude_code_build_order": [
+    { "phase": 1, "task": "Supabase project setup + run SQL schema" },
+    { "phase": 2, "task": "Backend: Express server + all API routes + WhatsApp service" },
+    { "phase": 3, "task": "Frontend: Kiosk home page + staff cards" },
+    { "phase": 4, "task": "Frontend: Face verification modal (face-api.js + camera)" },
+    { "phase": 5, "task": "Frontend: Success / Failed screens" },
+    { "phase": 6, "task": "Frontend: Absence report form" },
+    { "phase": 7, "task": "Frontend: Admin login + dashboard" },
+    { "phase": 8, "task": "Frontend: Realtime notifications (Supabase WebSocket)" },
+    { "phase": 9, "task": "Frontend: Staff management + face registration" },
+    { "phase": 10, "task": "Frontend: Attendance table + reports + settings" },
+    { "phase": 11, "task": "Backend: Cron job for daily summary" },
+    { "phase": 12, "task": "PWA config + deployment to Vercel + Railway" }
+  ]
+}

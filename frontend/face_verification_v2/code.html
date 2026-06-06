@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+
+<html class="light" lang="hi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&amp;family=DM+Sans:wght@400;500&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-dim": "#dbdcc3",
+                    "primary-container": "#e2725b",
+                    "on-tertiary-fixed-variant": "#6e3900",
+                    "on-primary-fixed-variant": "#802918",
+                    "surface-container-high": "#eaead1",
+                    "surface-container-lowest": "#ffffff",
+                    "surface": "#FFFDF5",
+                    "primary-fixed": "#ffdad3",
+                    "on-background": "#1b1d0e",
+                    "on-surface-variant": "#56423e",
+                    "surface-bright": "#fbfbe2",
+                    "on-primary-container": "#5a0d02",
+                    "surface-container-low": "#f5f5dc",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary": "#ffffff",
+                    "on-secondary-fixed": "#161f00",
+                    "surface-tint": "#9f402d",
+                    "background": "#fbfbe2",
+                    "on-surface": "#1b1d0e",
+                    "outline-variant": "#ddc0ba",
+                    "secondary": "#56642b",
+                    "on-secondary-container": "#5a682f",
+                    "tertiary-fixed-dim": "#ffb77d",
+                    "surface-variant": "#e4e4cc",
+                    "secondary-fixed": "#d9eaa3",
+                    "on-tertiary-fixed": "#2f1500",
+                    "on-error-container": "#93000a",
+                    "surface-container": "#FDF6E3",
+                    "primary-fixed-dim": "#ffb4a5",
+                    "tertiary": "#904d00",
+                    "primary": "#9f402d",
+                    "error": "#D9534F",
+                    "on-primary": "#ffffff",
+                    "tertiary-container": "#dd7900",
+                    "tertiary-fixed": "#ffdcc3",
+                    "inverse-primary": "#ffb4a5",
+                    "surface-surface": "#303221",
+                    "inverse-on-surface": "#f2f2d9",
+                    "error-container": "#ffdad6",
+                    "on-tertiary-container": "#462200",
+                    "secondary-container": "#d6e7a1",
+                    "secondary-fixed-dim": "#bdce89",
+                    "on-error": "#ffffff",
+                    "outline": "#D2B48C",
+                    "on-primary-fixed": "#3e0500"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "kiosk-gap": "24px",
+                    "touch-target": "48px",
+                    "base": "8px",
+                    "admin-gutter": "16px",
+                    "margin-edge": "32px"
+            },
+            "fontFamily": {
+                    "label-caps": ["JetBrains Mono"],
+                    "technical-sm": ["JetBrains Mono"],
+                    "body-md": ["DM Sans"],
+                    "display-lg": ["Syne"],
+                    "headline-lg": ["Syne"],
+                    "headline-lg-mobile": ["Syne"]
+            },
+            "fontSize": {
+                    "label-caps": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                    "technical-sm": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 0.4; }
+            100% { transform: scale(0.95); opacity: 0.8; }
+        }
+        .animate-pulse-ring {
+            animation: pulse-ring 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        .scanner-line {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #e2725b, transparent);
+            animation: scan 4s linear infinite;
+        }
+        @keyframes scan {
+            0% { top: 10%; }
+            50% { top: 90%; }
+            100% { top: 10%; }
+        }
+        .camera-mask {
+            mask-image: radial-gradient(circle at center, transparent 65%, black 66%);
+            -webkit-mask-image: radial-gradient(circle at center, transparent 65%, black 66%);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md min-h-screen overflow-hidden">
+<!-- Top App Bar (From Shared Components JSON) -->
+<header class="fixed top-0 w-full bg-surface dark:bg-surface-dim border-b border-outline-variant dark:border-outline flex justify-between items-center px-margin-edge h-touch-target z-50">
+<div class="flex items-center gap-base">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed" data-icon="location_on">location_on</span>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-primary dark:text-primary-fixed">StaffTrack</h1>
+</div>
+<div class="flex items-center gap-base">
+<span class="font-label-caps text-label-caps text-on-surface-variant" id="digital-clock">12:45 PM</span>
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed" data-icon="schedule">schedule</span>
+</div>
+</header>
+<!-- Main Verification Canvas -->
+<main class="relative flex flex-col items-center justify-center min-h-screen p-margin-edge pt-24 pb-32">
+<!-- Welcome Header -->
+<div class="text-center mb-kiosk-gap z-10">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface mb-2">नमस्ते रवि!</h2>
+<p class="font-technical-sm text-technical-sm text-on-surface-variant uppercase tracking-widest">Face Verification in Progress</p>
+</div>
+<!-- Camera Frame & Visual Effects -->
+<div class="relative w-full max-w-md aspect-square flex items-center justify-center">
+<!-- Pulse Rings (Terracotta) -->
+<div class="absolute inset-0 border-4 border-primary-container/20 rounded-full animate-pulse-ring"></div>
+<div class="absolute inset-4 border-2 border-primary-container/30 rounded-full animate-pulse-ring" style="animation-delay: 1.5s"></div>
+<!-- Main Camera Frame -->
+<div class="relative w-72 h-72 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-primary shadow-2xl bg-surface-container-low group">
+<img alt="User verification" class="w-full h-full object-cover" data-alt="A detailed close-up of a professional South Asian man looking directly into a camera for a biometric facial scan. The setting is a modern, warmly lit industrial workspace with soft cream walls and terracotta accents. High-quality soft lighting emphasizes skin texture and clarity. The image has a professional, high-fidelity photographic style with a clean, light-mode aesthetic and soft focus background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCGb9pvD2VwqI6KzNqvvSvHwtOHZ38KgWUuHNfu7N6j7fVt2nyCLYvmrH8bCDsz1DuHY8OsahCvZ95YfLucyTMJJMxNKIpTXBpH7T_eq0-cezshKR6kdvjQQJuVrOGkJxlaWofXZ3Vm-yqMDxzr_EkwajawCTp6xKnEBbL4Kw6_OZq9cuc9im3-ptW1hpfkkSKRUFx-32toqV3J0XNjon3GFVMc90nYxSzw5lpPiDhb7SYycoubXAgaosEWqjyE0hN-BTnzu-hlV-c4"/>
+<!-- Scanner Line Overlay -->
+<div class="absolute w-full scanner-line z-20"></div>
+<!-- Scanning UI Overlay -->
+<div class="absolute inset-0 pointer-events-none border-[12px] border-surface/40 rounded-full"></div>
+<div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+<div class="bg-primary/80 px-4 py-2 rounded-lg text-on-primary font-label-caps text-label-caps">SCANNING</div>
+</div>
+</div>
+<!-- Focus Corners -->
+<div class="absolute top-0 left-0 w-12 h-12 border-t-4 border-l-4 border-primary rounded-tl-xl"></div>
+<div class="absolute top-0 right-0 w-12 h-12 border-t-4 border-r-4 border-primary rounded-tr-xl"></div>
+<div class="absolute bottom-0 left-0 w-12 h-12 border-b-4 border-l-4 border-primary rounded-bl-xl"></div>
+<div class="absolute bottom-0 right-0 w-12 h-12 border-b-4 border-r-4 border-primary rounded-br-xl"></div>
+</div>
+<!-- Verification Status & Prompt -->
+<div class="mt-kiosk-gap max-w-sm w-full z-10">
+<div class="bg-surface-container border border-outline p-6 rounded-lg text-center flex flex-col items-center gap-4">
+<div class="flex items-center gap-base">
+<span class="material-symbols-outlined text-secondary animate-bounce" data-icon="face">face</span>
+<span class="font-technical-sm text-technical-sm text-on-surface-variant">Position your face within the frame</span>
+</div>
+<!-- Progress Bar Container -->
+<div class="w-full bg-surface-variant h-2 rounded-full overflow-hidden border border-outline-variant">
+<div class="bg-primary-container h-full transition-all duration-300 ease-out" id="progress-bar" style="width: 65%"></div>
+</div>
+<p class="font-label-caps text-label-caps text-primary">Verifying Identity... 65%</p>
+</div>
+</div>
+<!-- Action Button (Contextual) -->
+<button class="mt-kiosk-gap px-8 h-touch-target bg-primary text-on-primary font-label-caps text-label-caps rounded-lg active:scale-95 transition-transform shadow-md flex items-center gap-base">
+<span class="material-symbols-outlined" data-icon="cancel">cancel</span>
+            CANCEL SCAN
+        </button>
+</main>
+<!-- Bottom Navigation Bar (From Shared Components JSON - Highlighting "Check In") -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-20 px-4 bg-surface-container dark:bg-surface-container-high border-t border-outline-variant">
+<!-- Check In (Active) -->
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-lg px-4 py-1 active:scale-95 duration-200 hover:bg-surface-container-highest transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="fingerprint" style="font-variation-settings: 'FILL' 1;">fingerprint</span>
+<span class="font-label-caps text-label-caps">Check In</span>
+</a>
+<!-- History -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:scale-95 duration-200 hover:bg-surface-container-highest transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="font-label-caps text-label-caps">History</span>
+</a>
+<!-- Profile -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:scale-95 duration-200 hover:bg-surface-container-highest transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-caps text-label-caps">Profile</span>
+</a>
+</nav>
+<!-- Micro-interactions Script -->
+<script>
+        // Update Clock
+        function updateClock() {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+            document.getElementById('digital-clock').textContent = timeStr;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // Simulate Scanning Progress
+        let progress = 65;
+        const bar = document.getElementById('progress-bar');
+        const text = document.querySelector('.text-primary.font-label-caps');
+        
+        setInterval(() => {
+            if (progress < 98) {
+                progress += Math.random() * 2;
+                bar.style.width = `${progress}%`;
+                text.textContent = `Verifying Identity... ${Math.round(progress)}%`;
+            } else if (progress >= 98 && progress < 100) {
+                progress = 100;
+                bar.style.width = '100%';
+                text.textContent = 'Verification Complete';
+                text.classList.remove('text-primary');
+                text.classList.add('text-secondary');
+            }
+        }, 1200);
+
+        // Interaction scale effect
+        document.querySelectorAll('button, a').forEach(el => {
+            el.addEventListener('mousedown', () => el.classList.add('scale-95'));
+            el.addEventListener('mouseup', () => el.classList.remove('scale-95'));
+        });
+    </script>
+</body></html>

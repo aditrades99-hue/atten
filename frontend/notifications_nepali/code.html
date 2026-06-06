@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+
+<html lang="ne"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&amp;family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary-fixed-variant": "#802919",
+                    "on-primary-container": "#fffbff",
+                    "on-surface-variant": "#56423e",
+                    "secondary": "#4f6443",
+                    "outline-variant": "#ddc0bb",
+                    "on-primary-fixed": "#3f0400",
+                    "tertiary-fixed": "#ffdcc3",
+                    "surface-variant": "#eae1da",
+                    "on-error-container": "#93000a",
+                    "inverse-surface": "#34302b",
+                    "surface": "#fff8f4",
+                    "surface-container-high": "#f0e7df",
+                    "tertiary-container": "#ad6214",
+                    "primary-container": "#bd5541",
+                    "on-tertiary-container": "#fffbff",
+                    "on-tertiary-fixed-variant": "#6e3900",
+                    "surface-dim": "#e1d8d2",
+                    "on-secondary-fixed-variant": "#384c2d",
+                    "error-container": "#ffdad6",
+                    "surface-container-low": "#fbf2eb",
+                    "surface-container-highest": "#eae1da",
+                    "inverse-on-surface": "#f8efe8",
+                    "on-surface": "#1f1b17",
+                    "outline": "#89726d",
+                    "on-error": "#ffffff",
+                    "on-tertiary-fixed": "#2f1500",
+                    "tertiary-fixed-dim": "#ffb77d",
+                    "surface-container": "#f5ece5",
+                    "tertiary": "#8d4b00",
+                    "secondary-fixed-dim": "#b6cea5",
+                    "on-secondary": "#ffffff",
+                    "error": "#ba1a1a",
+                    "primary-fixed-dim": "#ffb4a5",
+                    "on-secondary-fixed": "#0e2006",
+                    "on-primary": "#ffffff",
+                    "primary-fixed": "#ffdad3",
+                    "inverse-primary": "#ffb4a5",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-fixed": "#d2eac0",
+                    "surface-bright": "#fff8f4",
+                    "surface-tint": "#a03f2e",
+                    "on-secondary-container": "#536947",
+                    "on-background": "#1f1b17",
+                    "secondary-container": "#cfe7bd",
+                    "background": "#fff8f4",
+                    "on-tertiary": "#ffffff",
+                    "primary": "#9d3d2c"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "sm": "12px",
+                    "md": "24px",
+                    "xl": "80px",
+                    "margin-mobile": "16px",
+                    "xs": "4px",
+                    "margin-desktop": "64px",
+                    "base": "8px",
+                    "gutter": "24px",
+                    "lg": "48px",
+                    "touch-target": "64px",
+                    "margin-edge": "24px"
+            },
+            "fontFamily": {
+                    "data-display": ["JetBrains Mono"],
+                    "label-caps": ["JetBrains Mono"],
+                    "body-md": ["DM Sans"],
+                    "body-lg": ["DM Sans"],
+                    "headline-sm": ["Syne"],
+                    "headline-lg-mobile": ["Syne"],
+                    "headline-md": ["Syne"],
+                    "headline-lg": ["Syne"]
+            },
+            "fontSize": {
+                    "data-display": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                    "label-caps": ["12px", {"lineHeight": "1.0", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-sm": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                    "headline-md": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                    "headline-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #fff8f4;
+            color: #1f1b17;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .sunset-shadow {
+            box-shadow: 0 4px 20px rgba(74, 69, 64, 0.08);
+        }
+        .notification-card {
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .notification-card:active {
+            transform: scale(0.98);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body-md text-body-md overflow-x-hidden">
+<!-- Top AppBar (from JSON) -->
+<header class="fixed top-0 w-full bg-surface z-50 border-b border-outline flex justify-between items-center px-margin-edge h-touch-target">
+<div class="flex items-center gap-base">
+<div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center overflow-hidden border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="A professional portrait of a South Asian male manager in a modern office. He is wearing a crisp linen shirt, smiling warmly at the camera. The background is a soft-focus minimalist workspace with warm, organic wood textures and soft, golden-hour natural lighting, maintaining the StaffTrack warm humanist brand aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAcDtxVrxZ1ZJOtXPQ6VBAhup4xqd8ZoHWhfnMGW58uZdJgS9mSqqJqlfMLu_JqLB8qpwbHj92Uu-PjPGVe5y7FpmaJS3ASkEfwiJjUCQfzIAMEDS37qkrTzHOdKs4LqROa40IkcGfVcujcLEER4fxsXYntJKJNOyq-k3IA0lxG8_eOyavz5-PditNXD0aGEHCbJxeywT4NxzygGKMkgsV2jbYyv2VXhoHBadTXK-YJKm-HDcJ_ztvTDSfyivLY3eQPKOMiFtjhPBbv"/>
+</div>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-primary">StaffTrack व्यवस्थापक</h1>
+</div>
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-primary" style="font-size: 28px;">schedule</span>
+</div>
+</header>
+<main class="mt-touch-target mb-32 px-margin-mobile md:px-margin-desktop py-lg max-w-4xl mx-auto">
+<!-- Header Section with Language Toggle & Clear All -->
+<div class="flex flex-col md:flex-row md:items-center justify-between mb-lg gap-md">
+<div class="flex flex-col">
+<h2 class="font-headline-md text-headline-md text-on-surface">सूचनाहरू</h2>
+<p class="text-on-surface-variant font-body-md mt-1">तपाईंका पछिल्ला कर्मचारी गतिविधिहरू</p>
+</div>
+<div class="flex items-center gap-md">
+<!-- Language Toggle -->
+<div class="bg-surface-container-high rounded-full p-1 flex items-center sunset-shadow">
+<button class="px-4 py-1.5 rounded-full bg-primary text-white font-label-caps text-label-caps">नेपाली</button>
+<button class="px-4 py-1.5 rounded-full text-on-surface-variant font-label-caps text-label-caps hover:bg-surface-container-highest transition-colors">Hindi</button>
+</div>
+<!-- Clear All Button -->
+<button class="flex items-center gap-xs text-primary font-label-caps text-label-caps border border-outline rounded-full px-4 py-2 hover:bg-surface-container-low active:scale-95 transition-all" onclick="clearAllNotifications()">
+                    सबै मेटाउनुहोस्
+                    <span class="material-symbols-outlined text-sm">delete</span>
+</button>
+</div>
+</div>
+<!-- Notification List -->
+<div class="space-y-md" id="notification-container">
+<!-- Check-in Alert -->
+<div class="notification-card bg-white rounded-xl p-md border border-outline/10 sunset-shadow flex gap-md items-start relative overflow-hidden group">
+<div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-secondary" data-icon="fingerprint">fingerprint</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-1">
+<span class="bg-secondary-container/30 text-secondary text-label-caps font-label-caps px-2 py-0.5 rounded">उपस्थिति</span>
+<span class="font-data-display text-data-display text-on-surface-variant">१० मिनेट अघि</span>
+</div>
+<h3 class="font-body-lg text-body-lg text-on-surface font-bold">राम बहादुरले चेक-इन गर्नुभयो</h3>
+<p class="text-on-surface-variant mt-1">मुख्य कार्यालयमा बिहान ९:०० बजे सफल चेक-इन।</p>
+</div>
+<div class="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 hover:bg-surface-container rounded-full text-outline">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Leave Request Approved -->
+<div class="notification-card bg-white rounded-xl p-md border border-outline/10 sunset-shadow flex gap-md items-start relative overflow-hidden group">
+<div class="w-12 h-12 rounded-full bg-tertiary-container flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-on-tertiary-container" data-icon="check_circle">check_circle</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-1">
+<span class="bg-tertiary-container/20 text-tertiary text-label-caps font-label-caps px-2 py-0.5 rounded">स्वीकृत</span>
+<span class="font-data-display text-data-display text-on-surface-variant">१ घण्टा अघि</span>
+</div>
+<h3 class="font-body-lg text-body-lg text-on-surface font-bold">तपाईंको बिदा स्वीकृत भयो</h3>
+<p class="text-on-surface-variant mt-1">आगामी शुक्रबारको लागि तपाईंको बिदाको अनुरोध प्रशासनबाट स्वीकृत गरिएको छ।</p>
+</div>
+<div class="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 hover:bg-surface-container rounded-full text-outline">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Late Arrival Notice -->
+<div class="notification-card bg-white rounded-xl p-md border border-outline/10 sunset-shadow flex gap-md items-start relative overflow-hidden group">
+<div class="w-12 h-12 rounded-full bg-primary-fixed flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-primary" data-icon="schedule">schedule</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-1">
+<span class="bg-primary-fixed/50 text-on-primary-fixed-variant text-label-caps font-label-caps px-2 py-0.5 rounded">ढिलाइ</span>
+<span class="font-data-display text-data-display text-on-surface-variant">३ घण्टा अघि</span>
+</div>
+<h3 class="font-body-lg text-body-lg text-on-surface font-bold">सीता गुरुङ ढिलो आइपुग्नुभयो</h3>
+<p class="text-on-surface-variant mt-1">सीता गुरुङ तोकिएको समय भन्दा ४५ मिनेट ढिलो कार्यालयमा प्रवेश गर्नुभएको छ।</p>
+</div>
+<div class="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 hover:bg-surface-container rounded-full text-outline">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Yesterday's Recap - Illustration Card -->
+<div class="bg-surface-container-low rounded-3xl p-md mt-lg border border-outline-variant flex flex-col md:flex-row items-center gap-lg">
+<div class="w-full md:w-1/3 h-48 rounded-2xl overflow-hidden shadow-sm">
+<img class="w-full h-full object-cover" data-alt="A diverse group of happy professionals in a sun-drenched, eco-friendly workspace. The environment features lush indoor plants, light oak furniture, and large windows revealing a soft urban morning. The composition is clean and airy, using a warm color palette of terracotta, sage green, and cream to reflect productivity and collaborative harmony." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAv4BP8vYmpPUkZImT2yMx97m9yqlWm-qXuh3m0B99YYJLwdiYSl0yAZ1YppJif_N-OPIsZy3XOuqrIVXNeHFLwtXHuaknHN3pHFWZ4Eg4hS-IerV3v6m20j5GRv9JsZPOUd1Lv4ns_qKo0L61qvtBKb7QIpxZpbK-r1iOPusFVT0h7wZTe7QVT7vRrx-ZNtIbZEAcqMSgN__cEsKpRrzN8Z5pezXUzd5A91Itue6fPOOoNsbYK9lKWFzp_1-8FDJnayxVyWC9_9UR7"/>
+</div>
+<div class="flex-1">
+<h4 class="font-headline-sm text-headline-sm text-primary mb-2">हिजोको सारांश</h4>
+<p class="text-on-surface-variant font-body-md mb-4">हिजो ९८% कर्मचारीहरू समयमै आइपुगेका थिए। ५ जनाले बिदाको लागि अनुरोध गरेका छन्।</p>
+<button class="bg-secondary text-white font-label-caps text-label-caps px-6 py-3 rounded-full hover:shadow-lg transition-all active:scale-95">विस्तृत रिपोर्ट हेर्नुहोस्</button>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Bar (from JSON) -->
+<nav class="fixed bottom-0 w-full z-50 bg-surface-container-low border-t border-outline flex justify-around items-center py-2 px-margin-edge">
+<!-- Dashboard -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-caps text-label-caps mt-1">ड्यासबोर्ड</span>
+</a>
+<!-- Requests (Active) -->
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-lg px-4 py-1 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="pending_actions" style="font-variation-settings: 'FILL' 1;">pending_actions</span>
+<span class="font-label-caps text-label-caps mt-1">अनुरोधहरू</span>
+</a>
+<!-- Reports -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="assessment">assessment</span>
+<span class="font-label-caps text-label-caps mt-1">रिपोर्टहरू</span>
+</a>
+</nav>
+<script>
+        function clearAllNotifications() {
+            const container = document.getElementById('notification-container');
+            container.style.transition = 'opacity 0.5s ease-out, transform 0.5s ease-out';
+            container.style.opacity = '0';
+            container.style.transform = 'translateY(20px)';
+            
+            setTimeout(() => {
+                container.innerHTML = `
+                    <div class="flex flex-col items-center justify-center py-20 text-center opacity-0 transition-opacity duration-1000" id="empty-state">
+                        <div class="w-24 h-24 bg-surface-container-high rounded-full flex items-center justify-center mb-md">
+                            <span class="material-symbols-outlined text-outline text-4xl">notifications_off</span>
+                        </div>
+                        <h3 class="font-headline-sm text-headline-sm text-on-surface-variant">कुनै नयाँ सूचना छैन</h3>
+                        <p class="text-on-surface-variant mt-2">सबै सूचनाहरू मेटिएका छन्।</p>
+                    </div>
+                `;
+                document.getElementById('empty-state').style.opacity = '1';
+                container.style.opacity = '1';
+                container.style.transform = 'translateY(0)';
+            }, 500);
+        }
+
+        // Ripple and Micro-interactions
+        document.querySelectorAll('.notification-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.borderColor = 'rgba(157, 61, 44, 0.3)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.borderColor = 'rgba(137, 114, 109, 0.1)';
+            });
+        });
+    </script>
+</body></html>

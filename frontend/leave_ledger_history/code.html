@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+
+<html lang="ne"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>StaffTrack - Leave Ledger &amp; History</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&amp;family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary": "#ffffff",
+                    "on-tertiary-container": "#fffbff",
+                    "secondary-fixed-dim": "#b6cea5",
+                    "primary-container": "#bd5541",
+                    "tertiary-fixed-dim": "#ffb77d",
+                    "surface-dim": "#e1d8d2",
+                    "on-tertiary-fixed": "#2f1500",
+                    "surface-container-low": "#fbf2eb",
+                    "on-surface": "#1f1b17",
+                    "on-surface-variant": "#56423e",
+                    "inverse-surface": "#34302b",
+                    "surface-tint": "#a03f2e",
+                    "on-primary-fixed-variant": "#802919",
+                    "inverse-on-surface": "#f8efe8",
+                    "surface": "#fff8f4",
+                    "outline": "#89726d",
+                    "secondary-fixed": "#d2eac0",
+                    "secondary-container": "#cfe7bd",
+                    "outline-variant": "#ddc0bb",
+                    "background": "#fff8f4",
+                    "on-secondary-fixed": "#0e2006",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary": "#4f6443",
+                    "primary": "#9d3d2c",
+                    "surface-container-highest": "#eae1da",
+                    "on-error-container": "#93000a",
+                    "on-background": "#1f1b17",
+                    "surface-container-high": "#f0e7df",
+                    "primary-fixed-dim": "#ffb4a5",
+                    "primary-fixed": "#ffdad3",
+                    "surface-container": "#f5ece5",
+                    "on-secondary": "#ffffff",
+                    "tertiary-fixed": "#ffdcc3",
+                    "tertiary": "#8d4b00",
+                    "on-secondary-container": "#536947",
+                    "on-primary-fixed": "#3f0400",
+                    "on-tertiary": "#ffffff",
+                    "on-tertiary-fixed-variant": "#6e3900",
+                    "surface-bright": "#fff8f4",
+                    "inverse-primary": "#ffb4a5",
+                    "error-container": "#ffdad6",
+                    "on-secondary-fixed-variant": "#384c2d",
+                    "tertiary-container": "#ad6214",
+                    "error": "#ba1a1a",
+                    "on-error": "#ffffff",
+                    "surface-variant": "#eae1da",
+                    "on-primary-container": "#fffbff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "sm": "12px",
+                    "margin-desktop": "64px",
+                    "xl": "80px",
+                    "gutter": "24px",
+                    "base": "8px",
+                    "xs": "4px",
+                    "md": "24px",
+                    "margin-mobile": "16px",
+                    "lg": "48px"
+            },
+            "fontFamily": {
+                    "label-caps": ["JetBrains Mono"],
+                    "data-display": ["JetBrains Mono"],
+                    "body-md": ["DM Sans"],
+                    "headline-lg": ["Syne"],
+                    "headline-md": ["Syne"],
+                    "headline-lg-mobile": ["Syne"],
+                    "body-lg": ["DM Sans"],
+                    "headline-sm": ["Syne"]
+            },
+            "fontSize": {
+                    "label-caps": ["12px", {"lineHeight": "1.0", "fontWeight": "700"}],
+                    "data-display": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-md": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-sm": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #fff8f4;
+            color: #1f1b17;
+            -webkit-font-smoothing: antialiased;
+        }
+        .sunset-shadow {
+            box-shadow: 0 4px 20px rgba(74, 69, 64, 0.08);
+        }
+        .glass-card {
+            background: rgba(255, 248, 244, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(137, 114, 109, 0.1);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #ddc0bb;
+            border-radius: 10px;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body-md text-body-md overflow-x-hidden">
+<!-- Top Navigation Bar -->
+<header class="w-full top-0 sticky z-40 bg-surface dark:bg-surface-dim border-b border-outline-variant/10 shadow-[0_4px_20px_rgba(74,69,64,0.08)] flex justify-between items-center px-margin-mobile md:px-margin-desktop py-base">
+<div class="flex items-center gap-sm">
+<button class="p-2 hover:bg-surface-container-low transition-colors rounded-full active:scale-95 duration-150">
+<span class="material-symbols-outlined text-primary">arrow_back</span>
+</button>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm font-bold text-primary">StaffTrack</span>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<div class="hidden md:flex items-center space-x-6 mr-6">
+<a class="text-primary font-bold transition-colors" href="#">Dashboard</a>
+<a class="text-on-surface-variant hover:bg-surface-container-low transition-colors px-3 py-1 rounded-lg" href="#">Approvals</a>
+<a class="text-on-surface-variant hover:bg-surface-container-low transition-colors px-3 py-1 rounded-lg" href="#">Reports</a>
+</div>
+<div class="bg-primary text-on-primary px-4 py-1 rounded-full text-label-caps font-label-caps cursor-pointer active:scale-95 transition-transform">
+                नेपाली
+            </div>
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center overflow-hidden border border-outline-variant/20">
+<img alt="Manager Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBK-7iZQRtZKS2ttPHF6c-Y6nkZtIP60DVlbOSQboj4DcrzbnzDKqpVBNSQTFjkj1ZCWYOCx7lmqy8IyEdP6IOu9UD-gZgZGY_n2E8N5jQccNv5AI89tUZDKMInILGYc6_gRvvBH2pYGz1lU2S7PBxnX9STHxeWGDtDFFPbY-L0EHHFR1Lq9k2cJO5x7Y8LAJHhNmQduNOTAzTgjSHWAHRdM1OGTTyQHjCOLBHBqjBB5w4pHAQMRnsd0LN9DXrmX7T2rVmtNk5jtxXG"/>
+</div>
+</div>
+</header>
+<main class="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop py-lg pb-32">
+<!-- Headline & User Brief -->
+<div class="mb-lg flex flex-col md:flex-row md:items-end justify-between gap-md">
+<div>
+<h1 class="font-headline-md text-headline-md text-on-surface mb-2">बिदा खाता र इतिहास</h1>
+<p class="text-on-surface-variant">कर्मचारी: <span class="font-bold text-primary">राम बहादुर थापा</span> (ID: #ST-9021)</p>
+</div>
+<div class="flex gap-sm">
+<button class="bg-primary text-on-primary px-6 py-2.5 rounded-xl flex items-center gap-2 sunset-shadow hover:brightness-110 active:scale-95 transition-all">
+<span class="material-symbols-outlined">add</span>
+                    बिदा थप्नुहोस्
+                </button>
+</div>
+</div>
+<!-- Summary Grid (Remaining Leave) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter mb-lg">
+<!-- Sick Leave Card -->
+<div class="glass-card p-md rounded-xl sunset-shadow flex flex-col justify-between group hover:border-primary/30 transition-all duration-300">
+<div class="flex justify-between items-start mb-sm">
+<div class="p-2 bg-primary/10 text-primary rounded-lg">
+<span class="material-symbols-outlined">medical_services</span>
+</div>
+<span class="text-label-caps font-label-caps text-on-surface-variant opacity-60">बिरामी बिदा</span>
+</div>
+<div>
+<h2 class="text-headline-sm font-headline-sm text-on-surface mb-1">०६ दिन बाँकी</h2>
+<div class="w-full bg-surface-container-highest h-1.5 rounded-full mt-3">
+<div class="bg-primary h-1.5 rounded-full w-[60%]"></div>
+</div>
+<p class="text-[12px] text-on-surface-variant mt-2">कुल विनियोजित: १० दिन</p>
+</div>
+</div>
+<!-- Personal Leave Card -->
+<div class="glass-card p-md rounded-xl sunset-shadow flex flex-col justify-between group hover:border-secondary/30 transition-all duration-300">
+<div class="flex justify-between items-start mb-sm">
+<div class="p-2 bg-secondary/10 text-secondary rounded-lg">
+<span class="material-symbols-outlined">home</span>
+</div>
+<span class="text-label-caps font-label-caps text-on-surface-variant opacity-60">घरबिदा</span>
+</div>
+<div>
+<h2 class="text-headline-sm font-headline-sm text-on-surface mb-1">१२ दिन बाँकी</h2>
+<div class="w-full bg-surface-container-highest h-1.5 rounded-full mt-3">
+<div class="bg-secondary h-1.5 rounded-full w-[80%]"></div>
+</div>
+<p class="text-[12px] text-on-surface-variant mt-2">कुल विनियोजित: १५ दिन</p>
+</div>
+</div>
+<!-- Festival Leave Card -->
+<div class="glass-card p-md rounded-xl sunset-shadow flex flex-col justify-between group hover:border-tertiary-container/30 transition-all duration-300">
+<div class="flex justify-between items-start mb-sm">
+<div class="p-2 bg-tertiary-container/10 text-tertiary-container rounded-lg">
+<span class="material-symbols-outlined">celebration</span>
+</div>
+<span class="text-label-caps font-label-caps text-on-surface-variant opacity-60">पर्व बिदा</span>
+</div>
+<div>
+<h2 class="text-headline-sm font-headline-sm text-on-surface mb-1">०३ दिन बाँकी</h2>
+<div class="w-full bg-surface-container-highest h-1.5 rounded-full mt-3">
+<div class="bg-tertiary-container h-1.5 rounded-full w-[40%]"></div>
+</div>
+<p class="text-[12px] text-on-surface-variant mt-2">कुल विनियोजित: ७ दिन</p>
+</div>
+</div>
+</div>
+<!-- History Section -->
+<div class="glass-card rounded-xl sunset-shadow overflow-hidden">
+<div class="px-md py-sm bg-surface-container-low border-b border-outline-variant/10 flex flex-col sm:flex-row justify-between items-center gap-sm">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">बिदाको इतिहास</h3>
+<div class="flex gap-sm w-full sm:w-auto">
+<div class="relative flex-grow sm:flex-grow-0">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">search</span>
+<input class="bg-surface-container-highest border-none rounded-lg pl-10 pr-4 py-2 text-sm w-full focus:ring-2 focus:ring-primary/20 transition-all" placeholder="खोज्नुहोस्..." type="text"/>
+</div>
+<button class="p-2 bg-surface-container-highest rounded-lg hover:bg-outline-variant/20 transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant">filter_list</span>
+</button>
+</div>
+</div>
+<div class="overflow-x-auto custom-scrollbar">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container/30">
+<th class="px-md py-4 font-label-caps text-label-caps text-on-surface-variant border-b border-outline-variant/10">मिति</th>
+<th class="px-md py-4 font-label-caps text-label-caps text-on-surface-variant border-b border-outline-variant/10">प्रकार</th>
+<th class="px-md py-4 font-label-caps text-label-caps text-on-surface-variant border-b border-outline-variant/10">अवधि</th>
+<th class="px-md py-4 font-label-caps text-label-caps text-on-surface-variant border-b border-outline-variant/10">कारण</th>
+<th class="px-md py-4 font-label-caps text-label-caps text-on-surface-variant border-b border-outline-variant/10">अवस्था</th>
+<th class="px-md py-4 font-label-caps text-label-caps text-on-surface-variant border-b border-outline-variant/10">कार्य</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/10">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-lowest transition-colors">
+<td class="px-md py-4 font-data-display text-data-display text-on-surface">२०८० चैत १० - चैत ११</td>
+<td class="px-md py-4">
+<span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-medium">बिरामी</span>
+</td>
+<td class="px-md py-4 font-medium text-on-surface">२ दिन</td>
+<td class="px-md py-4 text-on-surface-variant truncate max-w-[200px]">ज्वरो आएको कारणले आराम गर्नुपर्ने।</td>
+<td class="px-md py-4">
+<span class="bg-secondary/10 text-secondary px-3 py-1 rounded-full text-xs font-bold flex items-center w-fit gap-1">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> स्वीकृत
+                                </span>
+</td>
+<td class="px-md py-4">
+<button class="p-1 hover:bg-surface-container-high rounded transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-lowest transition-colors">
+<td class="px-md py-4 font-data-display text-data-display text-on-surface">२०८० फागुन १५ - फागुन २०</td>
+<td class="px-md py-4">
+<span class="bg-secondary/10 text-secondary px-3 py-1 rounded-full text-xs font-medium">घरबिदा</span>
+</td>
+<td class="px-md py-4 font-medium text-on-surface">५ दिन</td>
+<td class="px-md py-4 text-on-surface-variant truncate max-w-[200px]">घरायसी कामको विशेष प्रयोजन।</td>
+<td class="px-md py-4">
+<span class="bg-error/10 text-error px-3 py-1 rounded-full text-xs font-bold flex items-center w-fit gap-1">
+<span class="material-symbols-outlined text-[14px]">cancel</span> अस्वीकार
+                                </span>
+</td>
+<td class="px-md py-4">
+<button class="p-1 hover:bg-surface-container-high rounded transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-lowest transition-colors">
+<td class="px-md py-4 font-data-display text-data-display text-on-surface">२०८० माघ १०</td>
+<td class="px-md py-4">
+<span class="bg-tertiary-container/10 text-tertiary-container px-3 py-1 rounded-full text-xs font-medium">पर्व</span>
+</td>
+<td class="px-md py-4 font-medium text-on-surface">१ दिन</td>
+<td class="px-md py-4 text-on-surface-variant truncate max-w-[200px]">माघे संक्रान्ति पर्व मनाउन।</td>
+<td class="px-md py-4">
+<span class="bg-primary-container/20 text-on-primary-fixed-variant px-3 py-1 rounded-full text-xs font-bold flex items-center w-fit gap-1">
+<span class="material-symbols-outlined text-[14px] animate-pulse">pending</span> प्रक्रियामा
+                                </span>
+</td>
+<td class="px-md py-4">
+<button class="p-1 hover:bg-surface-container-high rounded transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-lowest transition-colors">
+<td class="px-md py-4 font-data-display text-data-display text-on-surface">२०८० पुस १२ - पुस १३</td>
+<td class="px-md py-4">
+<span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-medium">बिरामी</span>
+</td>
+<td class="px-md py-4 font-medium text-on-surface">२ दिन</td>
+<td class="px-md py-4 text-on-surface-variant truncate max-w-[200px]">नियमित स्वास्थ्य परीक्षण।</td>
+<td class="px-md py-4">
+<span class="bg-secondary/10 text-secondary px-3 py-1 rounded-full text-xs font-bold flex items-center w-fit gap-1">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> स्वीकृत
+                                </span>
+</td>
+<td class="px-md py-4">
+<button class="p-1 hover:bg-surface-container-high rounded transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="px-md py-4 bg-surface-container-lowest border-t border-outline-variant/10 flex justify-between items-center">
+<span class="text-xs text-on-surface-variant">कुल ४ रेकर्डहरू देखाइँदै</span>
+<div class="flex gap-2">
+<button class="p-1 border border-outline-variant/20 rounded disabled:opacity-30" disabled="">
+<span class="material-symbols-outlined text-sm">chevron_left</span>
+</button>
+<button class="p-1 border border-outline-variant/20 rounded hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Visual Decoration / Asset Section (Asymmetric Bento Highlight) -->
+<div class="mt-lg grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<div class="md:col-span-8 h-64 rounded-2xl overflow-hidden relative group">
+<img alt="Office Workspace" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A warm and professionally lit office environment in Nepal, showing a clean workspace with wooden accents and soft natural lighting. The scene captures a peaceful productivity vibe with a small green plant on a desk and a hint of Himalayan mountain artwork on the wall, maintaining a terracotta and sage green color palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMR0xoShZywEwE_JkiBDSqayiI_2l8u_n6gyT9OTmcZJsxMqKXFOp8sYozzh417s3kvwAqpbE8V8q_extddBo4SJFBW4SrkFE3Mvigo7jG5y-gWhgACAs7otCrCikKKGGrM2AGFWl6VQnBAFmVSQ16Krv4sLK5hpn2aP_JAxRL8oRdKVORZ7R_i5Fw0MZpm1z63RORmnaxLavjCuHtrEK_Cn9XFv7ffN0zckWwT8GvZW4CJGTHcnYBWg45RpFXR2-QIg5zc6FFA1od"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-md">
+<div class="text-white">
+<p class="font-label-caps text-label-caps opacity-80 mb-1 uppercase">Manager Tip</p>
+<h4 class="font-headline-sm text-headline-sm">बिदाको उचित व्यवस्थापनले कर्मचारीको उत्पादकत्व बढाउँछ।</h4>
+</div>
+</div>
+</div>
+<div class="md:col-span-4 bg-secondary-container rounded-2xl p-md flex flex-col justify-center items-center text-center sunset-shadow">
+<div class="w-16 h-16 bg-on-secondary-container/10 rounded-full flex items-center justify-center mb-md">
+<span class="material-symbols-outlined text-on-secondary-container text-3xl">insights</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-on-secondary-container mb-2">उपस्थितिको प्रवृत्ति</h4>
+<p class="text-sm text-on-secondary-container/80">यो महिना राम बहादुरको बिदा उपयोग गत महिनाको तुलनामा १०% कम छ।</p>
+<button class="mt-md text-on-secondary-container font-bold border-b-2 border-on-secondary-container/30 hover:border-on-secondary-container transition-all">विवरण हेर्नुहोस्</button>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Bar (Mobile & Fixed) -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 rounded-t-xl bg-surface-container shadow-[0_-4px_20px_rgba(74,69,64,0.08)] flex justify-around items-center h-xl pb-safe px-sm">
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-caps text-label-caps mt-1">Dashboard</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">how_to_reg</span>
+<span class="font-label-caps text-label-caps mt-1">Approvals</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">assessment</span>
+<span class="font-label-caps text-label-caps mt-1">Reports</span>
+</a>
+</nav>
+<!-- Floating Action Button (Only on Home/Dashboard screens usually, but kept for context as requested) -->
+<!-- Suppressed on detail sub-views as per instructions, but using Top Actions instead -->
+<script>
+        // Micro-interaction for hover effects on cards
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-4px)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+            });
+        });
+
+        // Simple mock search functionality
+        const searchInput = document.querySelector('input[placeholder="खोज्नुहोस्..."]');
+        if (searchInput) {
+            searchInput.addEventListener('input', (e) => {
+                const term = e.target.value.toLowerCase();
+                const rows = document.querySelectorAll('tbody tr');
+                rows.forEach(row => {
+                    const text = row.innerText.toLowerCase();
+                    row.style.display = text.includes(term) ? '' : 'none';
+                });
+            });
+        }
+    </script>
+</body></html>
