@@ -27,6 +27,15 @@ const Attendance = () => {
     return new Date(isoString).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true });
   };
 
+  const formatDuration = (hoursDecimal) => {
+    if (!hoursDecimal) return '-';
+    const totalMinutes = Math.round(parseFloat(hoursDecimal) * 60);
+    const hrs = Math.floor(totalMinutes / 60);
+    const mins = totalMinutes % 60;
+    if (hrs === 0) return `${mins}m`;
+    return `${hrs}h ${mins}m`;
+  };
+
   return (
     <div className="animate-fade-in">
       <style dangerouslySetInnerHTML={{__html: `
@@ -109,7 +118,7 @@ const Attendance = () => {
                   <th className="p-admin-gutter font-label-caps text-on-surface-variant uppercase text-center w-[120px]">खाजा बाहिर (Lunch Out)</th>
                   <th className="p-admin-gutter font-label-caps text-on-surface-variant uppercase text-center w-[120px]">खाजा फिर्ता (Lunch Return)</th>
                   <th className="p-admin-gutter font-label-caps text-on-surface-variant uppercase text-center w-[120px]">प्रस्थान (Departure)</th>
-                  <th className="p-admin-gutter font-label-caps text-on-surface-variant uppercase text-right border-l border-outline-variant/50 print:hidden">कुल घण्टा</th>
+                  <th className="p-admin-gutter font-label-caps text-on-surface-variant uppercase text-right border-l border-outline-variant/50 print:hidden">पसलमा बिताएको समय (Time in Shop)</th>
                 </tr>
               </thead>
               <tbody>
@@ -158,8 +167,8 @@ const Attendance = () => {
                       
                       <td className="p-admin-gutter text-right border-l border-outline-variant/50 print:hidden">
                         {r.total_hours ? (
-                          <span className="inline-flex items-center justify-center min-w-[60px] bg-outline-variant text-on-surface font-technical-sm px-2 py-1 rounded">
-                            {r.total_hours} hr
+                          <span className="inline-flex items-center justify-center min-w-[70px] bg-outline-variant text-on-surface font-technical-sm px-2 py-1 rounded whitespace-nowrap">
+                            {formatDuration(r.total_hours)}
                           </span>
                         ) : (
                           <span className="text-on-surface-variant font-technical-sm">-</span>

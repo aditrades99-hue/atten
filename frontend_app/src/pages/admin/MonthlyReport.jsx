@@ -79,12 +79,12 @@ const MonthlyReport = () => {
             r.status,
             r.morning_arrival ? new Date(r.morning_arrival).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' }) : '-',
             r.evening_departure ? new Date(r.evening_departure).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' }) : '-',
-            r.total_hours ? `${r.total_hours} hr` : '-'
+            r.total_hours ? formatDuration(r.total_hours) : '-'
           ]);
 
           doc.autoTable({
             startY: 40,
-            head: [['Date', 'Status', 'Arrival', 'Departure', 'Total Hours']],
+            head: [['Date', 'Status', 'Arrival', 'Departure', 'Time in Shop']],
             body: tableData,
           });
 
@@ -126,6 +126,15 @@ const MonthlyReport = () => {
   const formatTime = (isoString) => {
     if (!isoString) return '-';
     return new Date(isoString).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true });
+  };
+
+  const formatDuration = (hoursDecimal) => {
+    if (!hoursDecimal) return '-';
+    const totalMinutes = Math.round(parseFloat(hoursDecimal) * 60);
+    const hrs = Math.floor(totalMinutes / 60);
+    const mins = totalMinutes % 60;
+    if (hrs === 0) return `${mins}m`;
+    return `${hrs}h ${mins}m`;
   };
 
   const getStatusBadge = (status) => {
@@ -246,7 +255,7 @@ const MonthlyReport = () => {
                   <th className="p-4 font-label-caps text-on-surface-variant uppercase tracking-wider">स्थिति</th>
                   <th className="p-4 font-label-caps text-on-surface-variant uppercase tracking-wider">आगमन</th>
                   <th className="p-4 font-label-caps text-on-surface-variant uppercase tracking-wider">प्रस्थान</th>
-                  <th className="p-4 font-label-caps text-on-surface-variant uppercase tracking-wider text-right">कुल घण्टा</th>
+                  <th className="p-4 font-label-caps text-on-surface-variant uppercase tracking-wider text-right">पसलमा बिताएको समय (Time in Shop)</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-outline-variant/50">
@@ -265,7 +274,7 @@ const MonthlyReport = () => {
                       {formatTime(record.evening_departure)}
                     </td>
                     <td className="p-4 font-technical-sm text-on-surface-variant text-right font-bold">
-                      {record.total_hours ? `${record.total_hours} hr` : '-'}
+                      {record.total_hours ? formatDuration(record.total_hours) : '-'}
                     </td>
                   </tr>
                 ))}

@@ -5,6 +5,10 @@ const Settings = () => {
   const [settings, setSettings] = useState({
     work_start_time: '09:00',
     late_threshold: '09:15',
+    arrival_min: '08:00',
+    arrival_max: '10:00',
+    departure_min: '17:00',
+    departure_max: '20:00',
     telegram_notifications: 'true',
   });
   const [saving, setSaving] = useState(false);
@@ -62,21 +66,61 @@ const Settings = () => {
           
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div>
-              <label className="block font-label-caps text-on-surface-variant uppercase mb-2">कार्यालय खुल्ने समय</label>
+              <label className="block font-label-caps text-on-surface-variant uppercase mb-2">कार्यालय खुल्ने समय (Work Start Time)</label>
               <input 
                 type="time" 
-                value={settings.work_start_time}
+                value={settings.work_start_time || ''}
                 onChange={(e) => handleChange('work_start_time', e.target.value)}
                 className="w-full h-touch-target px-4 bg-surface border border-outline-variant rounded focus:border-primary outline-none font-technical-sm" 
               />
             </div>
             <div>
-              <label className="block font-label-caps text-on-surface-variant uppercase mb-2">ढिलो हुने समय (Alert Threshold)</label>
+              <label className="block font-label-caps text-on-surface-variant uppercase mb-2">ढिलो हुने समय (Late Threshold)</label>
               <input 
                 type="time" 
-                value={settings.late_threshold}
+                value={settings.late_threshold || ''}
                 onChange={(e) => handleChange('late_threshold', e.target.value)}
                 className="w-full h-touch-target px-4 bg-surface border border-outline-variant rounded focus:border-primary outline-none font-technical-sm text-error" 
+              />
+            </div>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6">
+            <div>
+              <label className="block font-label-caps text-on-surface-variant uppercase mb-2">आगमन समय न्यूनतम (Arrival Min)</label>
+              <input 
+                type="time" 
+                value={settings.arrival_min || ''}
+                onChange={(e) => handleChange('arrival_min', e.target.value)}
+                className="w-full h-touch-target px-4 bg-surface border border-outline-variant rounded focus:border-primary outline-none font-technical-sm" 
+              />
+            </div>
+            <div>
+              <label className="block font-label-caps text-on-surface-variant uppercase mb-2">आगमन समय अधिकतम (Arrival Max)</label>
+              <input 
+                type="time" 
+                value={settings.arrival_max || ''}
+                onChange={(e) => handleChange('arrival_max', e.target.value)}
+                className="w-full h-touch-target px-4 bg-surface border border-outline-variant rounded focus:border-primary outline-none font-technical-sm" 
+              />
+            </div>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6">
+            <div>
+              <label className="block font-label-caps text-on-surface-variant uppercase mb-2">प्रस्थान समय न्यूनतम (Departure Min)</label>
+              <input 
+                type="time" 
+                value={settings.departure_min || ''}
+                onChange={(e) => handleChange('departure_min', e.target.value)}
+                className="w-full h-touch-target px-4 bg-surface border border-outline-variant rounded focus:border-primary outline-none font-technical-sm" 
+              />
+            </div>
+            <div>
+              <label className="block font-label-caps text-on-surface-variant uppercase mb-2">प्रस्थान समय अधिकतम (Departure Max)</label>
+              <input 
+                type="time" 
+                value={settings.departure_max || ''}
+                onChange={(e) => handleChange('departure_max', e.target.value)}
+                className="w-full h-touch-target px-4 bg-surface border border-outline-variant rounded focus:border-primary outline-none font-technical-sm" 
               />
             </div>
           </div>
