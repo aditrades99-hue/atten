@@ -172,23 +172,57 @@ async function handleAttendance(method, subPath, body, searchParams) {
   try {
     if (method === 'GET' && (subPath === '' || subPath === '/')) {
       const date = searchParams.get('date') || new Date().toISOString().split('T')[0];
-      const { data, error } = await supabase.from('attendance').select('*, staff(name, role, photo_url)').eq('date', date);
+      
+      const { data: staffList, error: staffError } = await supabase.from('staff').select('id, name, role, photo_url').eq('is_active', true);
+      if (staffError) throw staffError;
+      
+      const { data, error } = await supabase.from('attendance').select('*').eq('date', date);
       if (error) throw error;
-      return json(200, data || []);
+      
+      const merged = staffList.map(staff => {
+        const att = (data || []).find(a => a.staff_id === staff.id);
+        if (att) {
+          return { ...att, staff };
+        } else {
+          return {
+            id: `no-att-${staff.id}`, staff_id: staff.id, date: date, status: 'absent',
+            morning_arrival: null, lunch_departure: null, lunch_return: null, evening_departure: null, total_hours: null, staff: staff
+          };
+        }
+      });
+      return json(200, merged);
     }
     if (method === 'GET' && subPath === '/monthly') {
       const staffId = searchParams.get('staff_id');
-      const yearMonth = searchParams.get('month'); // format: YYYY-MM
-      if (!staffId || !yearMonth) return json(400, { error: 'staff_id and month required' });
-      const startDate = `${yearMonth}-01`;
-      const endDate = `${yearMonth}-31`;
-      const { data, error } = await supabase.from('attendance').select('*').eq('staff_id', staffId).gte('date', startDate).lte('date', endDate).order('date', { ascending: false });
+      const startDate = searchParams.get('start_date');
+      const endDate = searchParams.get('end_date');
+      if (!staffId || !startDate || !endDate) return json(400, { error: 'staff_id, start_date, and end_date required' });
+      
+      const { data, error } = await supabase.from('attendance').select('*').eq('staff_id', staffId).gte('date', startDate).lte('date', endDate).order('date', { ascending: true });
       if (error) throw error;
-      return json(200, data || []);
+      
+      const records = [];
+      const currDate = new Date(startDate);
+      const lastDate = new Date(endDate);
+      
+      while (currDate <= lastDate) {
+        const dateStr = currDate.toISOString().split('T')[0];
+        const existing = (data || []).find(d => d.date === dateStr);
+        if (existing) {
+          records.push(existing);
+        } else {
+          records.push({
+            id: `no-att-${dateStr}`, staff_id: staffId, date: dateStr, status: 'absent',
+            morning_arrival: null, lunch_departure: null, lunch_return: null, evening_departure: null, total_hours: null
+          });
+        }
+        currDate.setDate(currDate.getDate() + 1);
+      }
+      return json(200, records);
     }
     if (method === 'POST' && subPath === '/archive-staff') {
-      const { staffId, month, pdfBase64, fileName, staffName } = body;
-      if (!staffId || !month || !pdfBase64) return json(400, { error: 'Missing required fields' });
+      const { staffId, start_date, end_date, pdfBase64, fileName, staffName } = body;
+      if (!staffId || !start_date || !end_date || !pdfBase64) return json(400, { error: 'Missing required fields' });
 
       // Send to Telegram
       if (TELEGRAM_BOT_TOKEN && TELEGRAM_CHAT_ID) {
@@ -197,8 +231,8 @@ async function handleAttendance(method, subPath, body, searchParams) {
           const buffer = Buffer.from(base64Data, 'base64');
           const formData = new FormData();
           formData.append('chat_id', TELEGRAM_CHAT_ID);
-          formData.append('document', new Blob([buffer], { type: 'application/pdf' }), fileName || `report_${staffId}_${month}.pdf`);
-          formData.append('caption', `📁 *Monthly Archive*\nStaff: *${staffName || staffId}*\nMonth: *${month}*\n\nData has been securely archived and cleared from database.`);
+          formData.append('document', new Blob([buffer], { type: 'application/pdf' }), fileName || `report_${staffId}_${start_date}.pdf`);
+          formData.append('caption', `📁 *Monthly Report*\nStaff: *${staffName || staffId}*\nDates: *${start_date} to ${end_date}*`);
 
           const tgRes = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendDocument`, {
             method: 'POST',
@@ -212,27 +246,7 @@ async function handleAttendance(method, subPath, body, searchParams) {
         }
       }
 
-      // Delete from Supabase
-      const startDate = `${month}-01`;
-      const endDate = `${month}-31`;
-      const { error: delError } = await supabase
-        .from('attendance')
-        .delete()
-        .eq('staff_id', staffId)
-        .gte('date', startDate)
-        .lte('date', endDate);
-
-      // Also delete the events for that month to fully clear space
-      await supabase
-        .from('attendance_events')
-        .delete()
-        .eq('staff_id', staffId)
-        .gte('timestamp', startDate)
-        .lte('timestamp', endDate);
-
-      if (delError) return json(500, { error: 'Failed to delete from Supabase', details: delError.message });
-
-      return json(200, { success: true, message: 'Archived and deleted successfully' });
+      return json(200, { success: true, message: 'Report sent successfully' });
     }
     if (method === 'POST' && subPath === '/mark') {
       const { staffId, action, photoUrl, verificationSuccess = true } = body;
@@ -254,6 +268,9 @@ async function handleAttendance(method, subPath, body, searchParams) {
 
       switch (action) {
         case 'arrived':
+          if (attendance.morning_arrival) {
+            return json(400, { success: false, message: 'तपाईंले आजको लागि पहिले नै आगमन (Agman) गरिसक्नुभएको छ। (Already marked agman for today)' });
+          }
           updateData = { morning_arrival: now.toISOString(), status: 'present_morning' };
           status = 'present_morning';
           msg = `✅ *${staffName}* arrived at *${timeStr}*`;
@@ -269,6 +286,9 @@ async function handleAttendance(method, subPath, body, searchParams) {
           msg = `🔙 *${staffName}* returned from lunch at *${timeStr}*`;
           break;
         case 'departed': {
+          if (attendance.evening_departure) {
+            return json(400, { success: false, message: 'तपाईंले आजको लागि पहिले नै प्रस्थान (Prasthan) गरिसक्नुभएको छ। (Already marked prasthan for today)' });
+          }
           let totalHours = null;
           if (attendance.morning_arrival) {
             const morningDiff = (attendance.lunch_departure ? new Date(attendance.lunch_departure) : now) - new Date(attendance.morning_arrival);
