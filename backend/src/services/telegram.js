@@ -30,4 +30,36 @@ async function sendNotification(message) {
   }
 }
 
-module.exports = { sendNotification };
+/**
+ * Sends a Document to the configured admin chat.
+ * @param {string} base64Data - Base64 string of the file
+ * @param {string} filename - Name of the file
+ * @param {string} caption - Optional caption
+ */
+async function sendDocument(base64Data, filename, caption = '') {
+  if (!botToken || !chatId) {
+    console.warn('⚠️  Telegram credentials missing.');
+    return;
+  }
+  try {
+    const FormData = require('form-data');
+    const form = new FormData();
+    const base64String = base64Data.split(',')[1] || base64Data;
+    const buffer = Buffer.from(base64String, 'base64');
+    
+    form.append('chat_id', chatId);
+    form.append('caption', caption);
+    form.append('parse_mode', 'Markdown');
+    form.append('document', buffer, { filename });
+
+    const url = `https://api.telegram.org/bot${botToken}/sendDocument`;
+    await axios.post(url, form, {
+      headers: form.getHeaders(),
+    });
+    console.log('✅ Telegram document sent.');
+  } catch (error) {
+    console.error('❌ Failed to send Telegram document:', error.response?.data?.description || error.message);
+  }
+}
+
+module.exports = { sendNotification, sendDocument };

@@ -4,6 +4,7 @@ import api from '../../lib/api';
 import useStore from '../../store/useStore';
 import FaceVerify from './FaceVerify';
 import AbsenceReport from './AbsenceReport';
+import { loadModels } from '../../lib/faceapi';
 
 const KioskHome = () => {
   const [staff, setStaff] = useState([]);
@@ -19,6 +20,9 @@ const KioskHome = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    // Preload models in background to make verification faster
+    loadModels().catch(console.error);
+
     const timer = setInterval(() => setCurrentTime(new Date()), 1000);
     fetchData();
     // Refresh data every 30 seconds to keep kiosk synced

@@ -43,13 +43,40 @@ router.get('/', async (req, res) => {
   try {
     const date = req.query.date || new Date().toISOString().split('T')[0];
 
+    const { data: staffList, error: staffError } = await supabase
+      .from('staff')
+      .select('id, name, role, photo_url')
+      .eq('is_active', true);
+    if (staffError) throw staffError;
+
     const { data, error } = await supabase
       .from('attendance')
-      .select('*, staff(name, role, photo_url)')
+      .select('*')
       .eq('date', date);
 
     if (error) throw error;
-    res.json(data || []);
+
+    const merged = staffList.map(staff => {
+      const att = (data || []).find(a => a.staff_id === staff.id);
+      if (att) {
+        return { ...att, staff };
+      } else {
+        return {
+          id: `no-att-${staff.id}`,
+          staff_id: staff.id,
+          date: date,
+          status: 'absent',
+          morning_arrival: null,
+          lunch_departure: null,
+          lunch_return: null,
+          evening_departure: null,
+          total_hours: null,
+          staff: staff
+        };
+      }
+    });
+
+    res.json(merged);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -80,6 +107,9 @@ router.post('/mark', async (req, res) => {
 
     switch (action) {
       case 'arrived':
+        if (attendance.morning_arrival) {
+          return res.status(400).json({ success: false, message: 'तपाईंले आजको लागि पहिले नै आगमन (Agman) गरिसक्नुभएको छ। (Already marked agman for today)' });
+        }
         updateData = { morning_arrival: now.toISOString(), status: 'present_morning' };
         status = 'present_morning';
         msg = `✅ *${staffName}* arrived at *${timeStr}*`;
@@ -95,6 +125,9 @@ router.post('/mark', async (req, res) => {
         msg = `🔙 *${staffName}* returned from lunch at *${timeStr}*`;
         break;
       case 'departed':
+        if (attendance.evening_departure) {
+          return res.status(400).json({ success: false, message: 'तपाईंले आजको लागि पहिले नै प्रस्थान (Prasthan) गरिसक्नुभएको छ। (Already marked prasthan for today)' });
+        }
         let totalHours = null;
         if (attendance.morning_arrival) {
           const morningDiff = (attendance.lunch_departure ? new Date(attendance.lunch_departure) : now) - new Date(attendance.morning_arrival);
@@ -136,6 +169,79 @@ router.post('/mark', async (req, res) => {
     }]);
 
     res.json({ success: true, status });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Get monthly/date-range attendance for a staff
+router.get('/monthly', async (req, res) => {
+  try {
+    const { staff_id, start_date, end_date } = req.query;
+    
+    if (!staff_id || !start_date || !end_date) {
+      return res.status(400).json({ error: 'staff_id, start_date, and end_date are required' });
+    }
+
+    const { data, error } = await supabase
+      .from('attendance')
+      .select('*')
+      .eq('staff_id', staff_id)
+      .gte('date', start_date)
+      .lte('date', end_date)
+      .order('date', { ascending: true });
+
+    if (error) throw error;
+    
+    // Generate all dates in range to show 'absent'
+    const records = [];
+    const currDate = new Date(start_date);
+    const lastDate = new Date(end_date);
+    
+    while (currDate <= lastDate) {
+      const dateStr = currDate.toISOString().split('T')[0];
+      const existing = (data || []).find(d => d.date === dateStr);
+      if (existing) {
+        records.push(existing);
+      } else {
+        records.push({
+          id: `no-att-${dateStr}`,
+          staff_id,
+          date: dateStr,
+          status: 'absent',
+          morning_arrival: null,
+          lunch_departure: null,
+          lunch_return: null,
+          evening_departure: null,
+          total_hours: null
+        });
+      }
+      currDate.setDate(currDate.getDate() + 1);
+    }
+
+    res.json(records);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Download and Send Report to Telegram
+router.post('/archive-staff', async (req, res) => {
+  try {
+    const { staffId, staffName, start_date, end_date, pdfBase64, fileName } = req.body;
+    
+    // Send via telegram
+    const { sendDocument } = require('../services/telegram');
+    if (sendDocument) {
+      await sendDocument(
+        pdfBase64, 
+        fileName, 
+        `📄 *Monthly Report*\nStaff: ${staffName}\nDates: ${start_date} to ${end_date}`
+      );
+    }
+    
+    // Notice: We removed the deletion of records here since user wants to keep data
+    res.json({ success: true });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

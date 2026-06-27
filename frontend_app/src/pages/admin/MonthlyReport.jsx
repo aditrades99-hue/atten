@@ -6,10 +6,12 @@ import 'jspdf-autotable';
 const MonthlyReport = () => {
   const [staffList, setStaffList] = useState([]);
   const [selectedStaff, setSelectedStaff] = useState('');
-  const [selectedMonth, setSelectedMonth] = useState(() => {
-    const now = new Date();
-    return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+  const [startDate, setStartDate] = useState(() => {
+    const d = new Date();
+    d.setDate(1);
+    return d.toISOString().split('T')[0];
   });
+  const [endDate, setEndDate] = useState(() => new Date().toISOString().split('T')[0]);
   const [records, setRecords] = useState([]);
   const [loading, setLoading] = useState(false);
   const [archiving, setArchiving] = useState(false);
@@ -20,12 +22,12 @@ const MonthlyReport = () => {
   }, []);
 
   useEffect(() => {
-    if (selectedStaff && selectedMonth) {
+    if (selectedStaff && startDate && endDate) {
       fetchRecords();
     } else {
       setRecords([]);
     }
-  }, [selectedStaff, selectedMonth]);
+  }, [selectedStaff, startDate, endDate]);
 
   const fetchStaff = async () => {
     try {
@@ -39,7 +41,7 @@ const MonthlyReport = () => {
   const fetchRecords = async () => {
     setLoading(true);
     try {
-      const res = await api.get(`/attendance/monthly?staff_id=${selectedStaff}&month=${selectedMonth}`);
+      const res = await api.get(`/attendance/monthly?staff_id=${selectedStaff}&start_date=${startDate}&end_date=${endDate}`);
       setRecords(res.data);
     } catch (err) {
       console.error('Failed to fetch monthly records', err);
@@ -49,7 +51,7 @@ const MonthlyReport = () => {
   };
 
   const handleArchiveMonth = async () => {
-    if (!window.confirm(`के तपाईं पक्का ${selectedMonth} महिनाको डाटा आर्काइभ गर्न र मेटाउन चाहनुहुन्छ? (Are you sure you want to archive and clear data for ${selectedMonth}?)`)) {
+    if (!window.confirm(`के तपाईं पक्का ${startDate} देखि ${endDate} सम्मको डाटा डाउनलोड गरी टेलिग्राममा पठाउन चाहनुहुन्छ? (Download & send to Telegram?)`)) {
       return;
     }
     
@@ -62,7 +64,7 @@ const MonthlyReport = () => {
 
       try {
         // Fetch data
-        const res = await api.get(`/attendance/monthly?staff_id=${staff.id}&month=${selectedMonth}`);
+        const res = await api.get(`/attendance/monthly?staff_id=${staff.id}&start_date=${startDate}&end_date=${endDate}`);
         const attendanceData = res.data;
 
         if (attendanceData && attendanceData.length > 0) {
@@ -70,7 +72,7 @@ const MonthlyReport = () => {
           const doc = new jsPDF();
           doc.text(`StaffTrack - Monthly Attendance Report`, 14, 15);
           doc.text(`Staff: ${staff.name} (${staff.role})`, 14, 25);
-          doc.text(`Month: ${selectedMonth}`, 14, 32);
+          doc.text(`Dates: ${startDate} to ${endDate}`, 14, 32);
 
           const tableData = attendanceData.map(r => [
             r.date,
@@ -86,7 +88,7 @@ const MonthlyReport = () => {
             body: tableData,
           });
 
-          const fileName = `attendance_${staff.name.replace(/\s+/g, '_')}_${selectedMonth}.pdf`;
+          const fileName = `attendance_${staff.name.replace(/\s+/g, '_')}_${startDate}_${endDate}.pdf`;
           
           // Auto Download
           doc.save(fileName);
@@ -94,21 +96,22 @@ const MonthlyReport = () => {
           // Get Base64
           const pdfBase64 = doc.output('datauristring');
 
-          // Send to Backend for Telegram & Delete
+          // Send to Backend for Telegram
           await api.post('/attendance/archive-staff', {
             staffId: staff.id,
             staffName: staff.name,
-            month: selectedMonth,
+            start_date: startDate,
+            end_date: endDate,
             pdfBase64,
             fileName
           });
         }
       } catch (err) {
-        console.error(`Failed to archive for ${staff.name}`, err);
+        console.error(`Failed to send report for ${staff.name}`, err);
       }
     }
 
-    setArchiveProgress({ current: staffList.length, total: staffList.length, message: 'Archive Complete! Data deleted.' });
+    setArchiveProgress({ current: staffList.length, total: staffList.length, message: 'Complete! Sent to Telegram.' });
     
     // Refresh current view
     if (selectedStaff) {
@@ -159,9 +162,9 @@ const MonthlyReport = () => {
           {archiving ? (
             <span className="material-symbols-outlined animate-spin">sync</span>
           ) : (
-            <span className="material-symbols-outlined">archive</span>
+            <span className="material-symbols-outlined">send</span>
           )}
-          डाटा आर्काइभ र मेटाउनुहोस्
+          डाउनलोड र टेलिग्राममा पठाउनुहोस् (Download & Send)
         </button>
       </div>
 
@@ -196,14 +199,25 @@ const MonthlyReport = () => {
               ))}
             </select>
           </div>
-          <div className="flex-1">
-            <label className="block font-label-caps text-on-surface-variant uppercase mb-2">महिना छान्नुहोस्</label>
-            <input
-              type="month"
-              value={selectedMonth}
-              onChange={(e) => setSelectedMonth(e.target.value)}
-              className="w-full h-touch-target px-4 bg-surface border border-outline-variant rounded focus:border-primary outline-none font-body-md"
-            />
+          <div className="flex-1 flex gap-4">
+            <div className="flex-1">
+              <label className="block font-label-caps text-on-surface-variant uppercase mb-2">सुरु मिति (Start Date)</label>
+              <input
+                type="date"
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+                className="w-full h-touch-target px-4 bg-surface border border-outline-variant rounded focus:border-primary outline-none font-body-md"
+              />
+            </div>
+            <div className="flex-1">
+              <label className="block font-label-caps text-on-surface-variant uppercase mb-2">अन्तिम मिति (End Date)</label>
+              <input
+                type="date"
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
+                className="w-full h-touch-target px-4 bg-surface border border-outline-variant rounded focus:border-primary outline-none font-body-md"
+              />
+            </div>
           </div>
         </div>
       </div>
